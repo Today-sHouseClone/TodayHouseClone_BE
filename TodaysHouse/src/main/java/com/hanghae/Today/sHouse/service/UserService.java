@@ -33,7 +33,7 @@ public class UserService {
             throw new IllegalArgumentException("중복된 이메일입니다.");
 
         //- 닉네임은 `최소 3자 이상, 알파벳 대소문자(a~z, A~Z), 숫자(0~9)`로 구성하기
-        String pattern = "^[a-zA-Z0-9가-힣]*$";
+        String pattern = "^[a-zA-Z0-9ㄱ-ㅣ가-힣ㄱ-ㅣ가-힣]*$";
         if(userNickname.length() < 2 && Pattern.matches(pattern, userNickname))
             throw new IllegalArgumentException("영문/숫자 포함 닉네임은 2자리 이상 입력해주세요.");
 
