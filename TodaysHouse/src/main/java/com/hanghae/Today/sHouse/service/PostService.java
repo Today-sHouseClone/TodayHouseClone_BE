@@ -56,7 +56,7 @@ public class PostService {
         return post;
     }
  
-//test
+//test2
 
     ////////////////////////------------S3관련---------------//////////////////////////////
     private String getImgUrl(MultipartFile imageUrl) {
