@@ -1,7 +1,6 @@
 package com.hanghae.Today.sHouse.controller;
 
 import com.hanghae.Today.sHouse.dto.MultipartFileDto;
-import com.hanghae.Today.sHouse.model.Post;
 import com.hanghae.Today.sHouse.security.UserDetailsImpl;
 import com.hanghae.Today.sHouse.service.PostService;
 import lombok.RequiredArgsConstructor;

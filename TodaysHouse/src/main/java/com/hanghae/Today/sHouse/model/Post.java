@@ -1,5 +1,6 @@
 package com.hanghae.Today.sHouse.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.hanghae.Today.sHouse.dto.PostRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,6 +8,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.List;
 
 @Entity
 @Getter
@@ -40,9 +42,16 @@ public class Post extends Timestamped {
     @Column(nullable = false)
     private String content;
 
+    @Column
+    private int heartCnt;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="USER_ID")
     private User user;
+
+    @JsonManagedReference // 직렬화 허용 어노테이션
+    @OneToMany(mappedBy = "post", orphanRemoval = true) // orpahRemanal = true 부모 삭제시 자식도 삭제
+    private List<Comment> comments;
 
     public Post(User user, PostRequestDto requestDto) {
         this.user = user;
