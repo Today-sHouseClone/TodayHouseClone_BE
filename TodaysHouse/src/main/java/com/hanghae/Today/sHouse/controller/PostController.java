@@ -1,6 +1,8 @@
 package com.hanghae.Today.sHouse.controller;
 
 import com.hanghae.Today.sHouse.dto.MultipartFileDto;
+import com.hanghae.Today.sHouse.dto.PostResponseDto;
+import com.hanghae.Today.sHouse.model.Post;
 import com.hanghae.Today.sHouse.security.UserDetailsImpl;
 import com.hanghae.Today.sHouse.service.PostService;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +16,20 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class PostController {
     private final PostService postService;
+
+    //메인페이지 조회
+    @GetMapping("/api/posts")
+    public ResponseEntity<PostResponseDto> getAllPost() {
+        return postService.getAllPost();
+    }
+
+    //게시글 상세조회
+    @GetMapping("/api/post/{id}")
+    public PostResponseDto getPost(@PathVariable Long id) {
+        Post post = postService.getPost(id).orElseThrow(
+                () -> new IllegalArgumentException("게시물이 존재하지 않습니다."));
+        return PostResponseDto.from(post);
+    }
 
     //게시글 등록
     @PostMapping("/api/post")
