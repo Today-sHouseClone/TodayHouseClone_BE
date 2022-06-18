@@ -7,10 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
@@ -34,11 +32,23 @@ public class PostController {
                                             MultipartFileDto requestDto)
     {
         try{
-            postService.update(postId, requestDto, userDetails);
+            postService.updatePost(postId, requestDto, userDetails);
             return new ResponseEntity<>("수정에 성공하셨습니다.", HttpStatus.CREATED);
-        }catch (Exception e){
+        }catch (IllegalArgumentException e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
+
+    //게시글 삭제
+    @DeleteMapping("/api/post/{postId}")
+    public ResponseEntity<String>deletePost(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails){
+        try{
+            postService.deletePost(postId, userDetails);
+            return new ResponseEntity<>("삭제에 성공하셨습니다.", HttpStatus.OK);
+        }catch(IllegalArgumentException e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
 
 }

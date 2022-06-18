@@ -37,7 +37,7 @@ public class PostService {
 
     //게시글 등록
     @Transactional
-    public Post createPost(UserDetailsImpl userDetails, MultipartFileDto requestDto) {
+    public void createPost(UserDetailsImpl userDetails, MultipartFileDto requestDto) {
         User user = userDetails.getUser();
 
         System.out.println("이미지 URL POST : " + requestDto.getImageUrl());
@@ -46,13 +46,11 @@ public class PostService {
 
         Post post = new Post(user, postRequestDto);
         postRepository.save(post);
-
-        return post;
     }
 
     //게시글 수정
     @Transactional
-    public void update(Long postId, MultipartFileDto requestDto, UserDetailsImpl userDetails) {
+    public void updatePost(Long postId, MultipartFileDto requestDto, UserDetailsImpl userDetails) {
         Post post = postRepository.findById(postId).orElseThrow(
                 () -> new NullPointerException("게시글이 존재하지 않습니다.")
         );
@@ -61,17 +59,40 @@ public class PostService {
         Long userId = user.getId();
         Long currentId = userDetails.getUser().getId();
 
+        idSameCheck(userId, currentId);
+
+        //Url로 변환
+        PostRequestDto postRequestDto = getPostRequestDto(requestDto);
+        post.update(user, postRequestDto);  //변경감지로 쓰기지연 저장소에 있던 친구들이 DB로 들어간다.(commit 시점에서)
+    }
+
+    //게시글 삭제
+    @Transactional
+    public void deletePost(Long postId, UserDetailsImpl userDetails) {
+        Post post = postRepository.findById(postId).orElseThrow(
+                () -> new NullPointerException("게시글이 존재하지 않습니다.")
+        );
+        User user = post.getUser();
+        Long userId = user.getId();
+        Long currentId = userDetails.getUser().getId();
+
+        idSameCheck(userId, currentId);
+
+        String imageUrl = post.getImageUrl();
+
+        deleteImage(imageUrl);
+        postRepository.deleteById(postId);
+    }
+
+    //아이디 동일 체크
+    private void idSameCheck(Long userId, Long currentId) {
         if (!userId.equals(currentId)) {
             throw new IllegalArgumentException("본인이 작성한 글만 수정할 수 있습니다.");
         }
-        //Url로 변환
-        PostRequestDto postRequestDto = getPostRequestDto(requestDto);
 
-        post.update(user, postRequestDto);
-        // postRepository.save(savePost);
     }
 
-    //MultipartFileDto에서 PostRequestDto로 변환해서 전달
+    //MultipartFileDto에서 PostRequestDto로 변환해서 전달, s3 접근 후 Multipart -> url+string
     private PostRequestDto getPostRequestDto(MultipartFileDto requestDto) {
         int size = requestDto.getSize();
         String type = requestDto.getType();
@@ -92,7 +113,6 @@ public class PostService {
         objectMetadata.setContentLength(imageUrl.getSize());
         objectMetadata.setContentType(imageUrl.getContentType());
 
-
         System.out.println(bucket);
 
         try(InputStream inputStream = imageUrl.getInputStream()) {
@@ -101,7 +121,6 @@ public class PostService {
         } catch(IOException e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "이미지 업로드에 실패했습니다.");
         }
-
         return amazonS3.getUrl(bucket, fileName).toString();
     }
 
@@ -120,6 +139,8 @@ public class PostService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "잘못된 형식의 파일(" + fileName + ") 입니다.");
         }
     }
+
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 }
