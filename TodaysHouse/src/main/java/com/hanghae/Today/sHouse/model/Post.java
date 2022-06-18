@@ -26,13 +26,13 @@ public class Post extends Timestamped {
     @Column(name = "POST_ID")
     private Long id;
 
-    @Column(nullable = false)
+    @Column
     private int size;
 
-    @Column(nullable = false)
+    @Column
     private String type;
 
-    @Column(nullable = false)
+    @Column
     private String style;
 
     @Column(nullable = false)
@@ -41,11 +41,20 @@ public class Post extends Timestamped {
     @Column(nullable = false)
     private String imageUrl;
 
-    @Column(nullable = false)
+    @Column
     private String content;
 
     @Column
     private int heartCnt;
+
+    @Column
+    private int bookmarkCnt;
+
+    @Column
+    private int commentCnt;
+
+    @Column
+    private int viewCnt;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="USER_ID")

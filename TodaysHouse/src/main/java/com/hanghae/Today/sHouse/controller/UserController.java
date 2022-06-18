@@ -20,7 +20,7 @@ public class UserController {
     public ResponseEntity<String> registerUser(@RequestBody SignupRequestDto requestDto) {
         try{
             userService.registerUser(requestDto);
-            return new ResponseEntity<>("로그인에 성공하셨습니다!", HttpStatus.OK);
+            return new ResponseEntity<>("회원가입에 성공하셨습니다!", HttpStatus.OK);
         }
         catch(IllegalArgumentException e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
