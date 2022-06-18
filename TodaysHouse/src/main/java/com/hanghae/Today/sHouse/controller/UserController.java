@@ -8,12 +8,11 @@ import com.hanghae.Today.sHouse.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.util.Optional;
 
 
 @RequiredArgsConstructor
@@ -39,15 +38,25 @@ public class UserController {
     // 회원 로그인
     @PostMapping("/user/login")
     public ResponseEntity<String> login(final HttpServletResponse response, @RequestBody LoginRequestDto loginRequestDto) {
+        String nickName;
         try {
-            userService.login(loginRequestDto);
+            nickName = userService.login(loginRequestDto);
         } catch (IllegalArgumentException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
         String token = jwtTokenProvider.createToken(loginRequestDto.getUsername());
         System.out.println(token);
         response.addHeader("Authorization", token);
-        return new ResponseEntity<>("로그인에 성공하셨습니다!", HttpStatus.OK);
+        return new ResponseEntity<>(nickName + "로그인에 성공하셨습니다!", HttpStatus.OK);
     }
 
+    //닉네임 중복 체크
+    @GetMapping("/api/user/nicknameCheck/{userNickname}")
+    public ResponseEntity<String> checkUsername(@PathVariable String userNickname){
+        Optional<User> found = userRepository.findByUserNickname(userNickname);
+        if(found.isPresent()){
+            return new ResponseEntity<>("닉네임이 중복되었습니다.", HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>("축하해요! 닉네임을 사용하실 수 있습니다!.", HttpStatus.OK);
+    }
 }

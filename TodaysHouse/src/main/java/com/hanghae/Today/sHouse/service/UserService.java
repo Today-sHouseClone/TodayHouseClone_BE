@@ -52,18 +52,19 @@ public class UserService {
 
     //로그인
     @Transactional
-    public void login(LoginRequestDto loginRequestDto) {
+    public String login(LoginRequestDto loginRequestDto) {
         User user = userRepository.findByUsername(loginRequestDto.getUsername())
                 .orElse(null);
 
+        String userNickname = user.getUserNickname();
+
         if (user != null) {
             if (!passwordEncoder.matches(loginRequestDto.getPassword(), user.getPassword())) {
-
                 throw new IllegalArgumentException("아이디 혹은 비밀번호가 다릅니다.");
             }
         } else {
             throw new IllegalArgumentException("아이디 혹은 비밀번호가 다릅니다.");
         }
-
+        return userNickname;
     }
 }
