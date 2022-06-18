@@ -1,10 +1,8 @@
 package com.hanghae.Today.sHouse.security;
 
-
 import com.hanghae.Today.sHouse.security.jwt.JwtAuthenticationFilter;
 import com.hanghae.Today.sHouse.security.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -36,22 +34,27 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
+
     // 정적 자원에 대해서는 Security 설정을 적용하지 않음.
     @Override
     public void configure(WebSecurity web) {
-        web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations());
+        web.ignoring().antMatchers("/h2-console/**");
+        //web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations());
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
-        http.headers().frameOptions().disable();
+        http.headers().frameOptions().disable()
+                .and()
+                .cors();
         http.authorizeRequests()
 
                 // api 요청 접근허용
                 .antMatchers("/user/**").permitAll()
-//                .antMatchers("**").permitAll()
-//                .antMatchers("/").permitAll()
+                .antMatchers("**").permitAll()
+                .antMatchers("/").permitAll()
+
 //                .antMatchers("/api/**").permitAll()
 
                 // 그 외 모든 요청은 인증과정 필요
@@ -60,7 +63,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // 토큰을 활용하면 세션이 필요 없으므로 STATELESS로 설정하여 Session을 사용하지 않는다.
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
     }
 }
