@@ -21,7 +21,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Optional;
+
 import java.util.UUID;
 
 @RequiredArgsConstructor
