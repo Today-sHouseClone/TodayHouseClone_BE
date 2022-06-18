@@ -33,7 +33,8 @@ public class PostController {
 
     //게시글 등록
     @PostMapping("/api/post")
-    public ResponseEntity<String>createPost(@AuthenticationPrincipal UserDetailsImpl userDetails, MultipartFileDto requestDto){
+    public ResponseEntity<String>addPost(@AuthenticationPrincipal UserDetailsImpl userDetails,
+                                         MultipartFileDto requestDto){
         try{
             postService.createPost(userDetails, requestDto);
             return new ResponseEntity<>("게시글 등록을 성공하였습니다.", HttpStatus.CREATED);
@@ -44,9 +45,9 @@ public class PostController {
 
     //게시글 수정
     @PutMapping("/api/post/{postId}")
-    public ResponseEntity<String>updatePost(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails,
-                                            MultipartFileDto requestDto)
-    {
+    public ResponseEntity<String>updatePost(@PathVariable Long postId,
+                                            @AuthenticationPrincipal UserDetailsImpl userDetails,
+                                            MultipartFileDto requestDto){
         try{
             postService.updatePost(postId, requestDto, userDetails);
             return new ResponseEntity<>("수정에 성공하셨습니다.", HttpStatus.CREATED);
@@ -57,7 +58,8 @@ public class PostController {
 
     //게시글 삭제
     @DeleteMapping("/api/post/{postId}")
-    public ResponseEntity<String>deletePost(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails){
+    public ResponseEntity<String>deletePost(@PathVariable Long postId,
+                                            @AuthenticationPrincipal UserDetailsImpl userDetails){
         try{
             postService.deletePost(postId, userDetails);
             return new ResponseEntity<>("삭제에 성공하셨습니다.", HttpStatus.OK);
