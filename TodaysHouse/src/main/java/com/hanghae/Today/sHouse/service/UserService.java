@@ -20,7 +20,6 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
 
-    //닉네임 중복으로 바꾸기, 컬럼명 수정, 이메일 중복
     @Transactional
     public void registerUser(SignupRequestDto requestDto){
         // 회원 ID 중복 확인
@@ -56,10 +55,10 @@ public class UserService {
     public void login(LoginRequestDto loginRequestDto) {
         User user = userRepository.findByUsername(loginRequestDto.getUsername())
                 .orElse(null);
+
         if (user != null) {
             if (!passwordEncoder.matches(loginRequestDto.getPassword(), user.getPassword())) {
-                System.out.println("1111111111111111" + loginRequestDto.getPassword());
-                System.out.println("1111111111111111" + user.getPassword());
+
                 throw new IllegalArgumentException("아이디 혹은 비밀번호가 다릅니다.");
             }
         } else {
