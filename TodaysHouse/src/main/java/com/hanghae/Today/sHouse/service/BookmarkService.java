@@ -1,13 +1,10 @@
 package com.hanghae.Today.sHouse.service;
 
 import com.hanghae.Today.sHouse.dto.BookmarkDto;
-import com.hanghae.Today.sHouse.dto.HeartDto;
 import com.hanghae.Today.sHouse.model.Bookmark;
-import com.hanghae.Today.sHouse.model.Heart;
 import com.hanghae.Today.sHouse.model.Post;
 import com.hanghae.Today.sHouse.model.User;
 import com.hanghae.Today.sHouse.repository.BookmarkRepository;
-import com.hanghae.Today.sHouse.repository.HeartRepository;
 import com.hanghae.Today.sHouse.repository.PostRepository;
 import com.hanghae.Today.sHouse.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

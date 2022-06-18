@@ -5,7 +5,6 @@ import com.hanghae.Today.sHouse.dto.SignupRequestDto;
 import com.hanghae.Today.sHouse.model.User;
 import com.hanghae.Today.sHouse.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,6 +14,7 @@ import java.util.regex.Pattern;
 
 @RequiredArgsConstructor
 @RestController
+@Transactional(readOnly = true)
 public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -51,4 +51,20 @@ public class UserService {
         userRepository.save(user);
     }
 
+    //로그인
+    @Transactional
+    public void login(LoginRequestDto loginRequestDto) {
+        User user = userRepository.findByUsername(loginRequestDto.getUsername())
+                .orElse(null);
+        if (user != null) {
+            if (!passwordEncoder.matches(loginRequestDto.getPassword(), user.getPassword())) {
+                System.out.println("1111111111111111" + loginRequestDto.getPassword());
+                System.out.println("1111111111111111" + user.getPassword());
+                throw new IllegalArgumentException("아이디 혹은 비밀번호가 다릅니다.");
+            }
+        } else {
+            throw new IllegalArgumentException("아이디 혹은 비밀번호가 다릅니다.");
+        }
+
+    }
 }
