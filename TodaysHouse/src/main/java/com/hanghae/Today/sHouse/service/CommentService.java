@@ -61,6 +61,7 @@ public class CommentService {
         String currentUsername = userDetails.getUsername();
         String updateComment = requestDto.getComment();
 
+
         //방금 저장한 이름이랑 수정을 신청한 이름이랑 같다면
         if(username.equals(currentUsername)){
             comment.setComment(updateComment);

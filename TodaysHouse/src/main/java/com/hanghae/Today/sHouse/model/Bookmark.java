@@ -1,5 +1,6 @@
 package com.hanghae.Today.sHouse.model;
 
+import com.hanghae.Today.sHouse.dto.BookmarkDto;
 import com.hanghae.Today.sHouse.dto.HeartDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,13 +13,13 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @SequenceGenerator(
-        name = "HEART_A",
-        sequenceName = "HEART_B",
+        name = "BOOKMARK_A",
+        sequenceName = "BOOKMARK_B",
         initialValue = 1, allocationSize = 50)
-public class Heart {
+public class Bookmark {
     @Id
-    @GeneratedValue(strategy= GenerationType.SEQUENCE, generator = "HEART_A")
-    @Column(name = "HEART_ID")
+    @GeneratedValue(strategy= GenerationType.SEQUENCE, generator = "BOOKMARK_A")
+    @Column(name = "BOOKMARK_ID")
     private Long id;
 
     @ManyToOne
@@ -29,8 +30,8 @@ public class Heart {
     @JoinColumn(name = "POST_ID")
     private Post post;
 
-    public Heart(HeartDto heartDto) {
-        this.user = heartDto.getUser();
-        this.post = heartDto.getPost();
+    public Bookmark(BookmarkDto bookmarkDto) {
+        this.user = bookmarkDto.getUser();
+        this.post = bookmarkDto.getPost();
     }
 }

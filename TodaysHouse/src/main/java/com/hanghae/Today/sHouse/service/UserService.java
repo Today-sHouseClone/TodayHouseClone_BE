@@ -1,5 +1,6 @@
 package com.hanghae.Today.sHouse.service;
 
+import com.hanghae.Today.sHouse.dto.LoginRequestDto;
 import com.hanghae.Today.sHouse.dto.SignupRequestDto;
 import com.hanghae.Today.sHouse.model.User;
 import com.hanghae.Today.sHouse.repository.UserRepository;
@@ -49,4 +50,5 @@ public class UserService {
         User user = new User(userEmail, nickname, password);
         userRepository.save(user);
     }
+
 }
