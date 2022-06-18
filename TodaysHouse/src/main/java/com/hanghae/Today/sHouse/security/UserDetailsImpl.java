@@ -1,10 +1,12 @@
 package com.hanghae.Today.sHouse.security;
 
+
 import com.hanghae.Today.sHouse.model.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.Collections;
 
 public class UserDetailsImpl implements UserDetails {
 
@@ -17,6 +19,9 @@ public class UserDetailsImpl implements UserDetails {
     public User getUser() {
         return user;
     }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {return Collections.emptyList();}
 
     @Override
     public String getPassword() {
@@ -46,10 +51,5 @@ public class UserDetailsImpl implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
-    }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
     }
 }
