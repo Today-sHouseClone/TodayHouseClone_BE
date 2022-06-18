@@ -39,19 +39,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     // 정적 자원에 대해서는 Security 설정을 적용하지 않음.
     @Override
     public void configure(WebSecurity web) {
-        web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations());
+//        web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations());
+        web.ignoring().antMatchers("/h2-console/**");
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
-        http.headers().frameOptions().disable();
+        http.headers().frameOptions().disable().and().cors();
         http.authorizeRequests()
 
                 // api 요청 접근허용
                 .antMatchers("/user/**").permitAll()
-//                .antMatchers("**").permitAll()
-//                .antMatchers("/").permitAll()
+                .antMatchers("**").permitAll()
+                .antMatchers("/").permitAll()
 //                .antMatchers("/api/**").permitAll()
 
                 // 그 외 모든 요청은 인증과정 필요
