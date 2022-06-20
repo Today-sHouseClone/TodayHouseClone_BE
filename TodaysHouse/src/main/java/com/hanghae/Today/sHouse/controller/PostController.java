@@ -6,7 +6,6 @@ import com.hanghae.Today.sHouse.model.Post;
 import com.hanghae.Today.sHouse.repository.PostRepository;
 import com.hanghae.Today.sHouse.security.UserDetailsImpl;
 import com.hanghae.Today.sHouse.service.PostService;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.LoggerFactory;
@@ -29,8 +28,8 @@ public class PostController {
     @PostMapping("/api/post")
     public ResponseEntity<String>addPost(@AuthenticationPrincipal UserDetailsImpl userDetails,
                                          MultipartFileDto requestDto){
-
         try{
+            log.info(userDetails.getUsername());
 //            logger.warn(String.valueOf(requestDto.getImageUrl()));
 //            logger.warn(String.valueOf(requestDto.getContent()));
 //            logger.warn(String.valueOf(requestDto.getArea()));
