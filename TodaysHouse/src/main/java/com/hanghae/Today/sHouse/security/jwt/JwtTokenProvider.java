@@ -52,10 +52,10 @@ public class JwtTokenProvider {
 
     // JWT 토큰에서 인증 정보 조회
     public Authentication getAuthentication(String token) {
-        //UserDetails userDetails = userDetailsService.loadUserByUsername(this.getUserPk(token));
-        UserDetailsImpl userDetails = new UserDetailsImpl(userRepository.findByUsername(this.getUserPk(token)).orElseThrow(
-                ()-> new IllegalArgumentException("인증 정보가 없습니다.")
-        ));
+        UserDetails userDetails = userDetailsService.loadUserByUsername(this.getUserPk(token));
+//        UserDetailsImpl userDetails = new UserDetailsImpl(userRepository.findByUsername(this.getUserPk(token)).orElseThrow(
+//                ()-> new IllegalArgumentException("인증 정보가 없습니다.")
+//        ));
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 
