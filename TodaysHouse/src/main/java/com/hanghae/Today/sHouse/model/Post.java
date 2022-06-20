@@ -54,12 +54,12 @@ public class Post extends Timestamped {
     private int viewCnt;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnore
+
     @JoinColumn(name="USER_ID")
     private User user;
 
     //@JsonManagedReference // 직렬화 허용 어노테이션
-    @JsonIgnore
+
     @OneToMany(mappedBy = "post", orphanRemoval = true) // orpahRemanal = true 부모 삭제시 자식도 삭제
     private List<Comment> comments;
 
