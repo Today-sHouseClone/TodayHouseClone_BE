@@ -5,16 +5,21 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.hanghae.Today.sHouse.dto.CommentResponseDto;
 import com.hanghae.Today.sHouse.dto.MultipartFileDto;
 import com.hanghae.Today.sHouse.dto.PostRequestDto;
 import com.hanghae.Today.sHouse.dto.PostResponseDto;
+import com.hanghae.Today.sHouse.model.Comment;
 import com.hanghae.Today.sHouse.model.Post;
 import com.hanghae.Today.sHouse.model.User;
+import com.hanghae.Today.sHouse.repository.CommentRepository;
 import com.hanghae.Today.sHouse.repository.PostRepository;
 import com.hanghae.Today.sHouse.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -36,6 +41,7 @@ import java.util.UUID;
 @Slf4j
 public class PostService {
     private final PostRepository postRepository;
+    private final CommentRepository commentRepository;
 
     private final AmazonS3 amazonS3;
 
@@ -46,6 +52,7 @@ public class PostService {
     public ResponseEntity<PostResponseDto> getAllPost() {
         List<Post> posts = postRepository.findAllByOrderByCreatedAtDesc();
         List<PostResponseDto.MainResponse> postResponse = new ArrayList<>();
+//        List<CommentResponseDto> commentList = commentRepository;
         for (Post post : posts) {
             PostResponseDto.MainResponse mainDto = PostResponseDto.MainResponse.builder()
                     .id(post.getId())
