@@ -55,7 +55,7 @@ public class JwtTokenProvider {
                 //signature에 들어갈 secret값 세팅
                 .compact();
 
-        response.addHeader(AUTH_HEADER,token);
+        response.addHeader(AUTH_HEADER, token);
         return token;
     }
 
