@@ -17,7 +17,7 @@ public class HeartController {
     private final HeartService heartService;
 
     //좋아요 클릭
-    @PostMapping("/api/like/{postId}")
+    @PostMapping("/api/heart/{postId}")
     public ResponseEntity<Boolean> IsHeart(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails){
         try{
             Long userId = userDetails.getUser().getId();
