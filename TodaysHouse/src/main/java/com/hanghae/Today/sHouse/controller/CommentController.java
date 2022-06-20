@@ -2,23 +2,23 @@ package com.hanghae.Today.sHouse.controller;
 
 import com.hanghae.Today.sHouse.dto.CommentRequestDto;
 import com.hanghae.Today.sHouse.dto.CommentResponseDto;
-import com.hanghae.Today.sHouse.model.Comment;
-import com.hanghae.Today.sHouse.model.Post;
 import com.hanghae.Today.sHouse.repository.CommentRepository;
 import com.hanghae.Today.sHouse.repository.PostRepository;
 import com.hanghae.Today.sHouse.security.UserDetailsImpl;
 import com.hanghae.Today.sHouse.service.CommentService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
+
 
 @RequiredArgsConstructor
 @RestController
+
 public class CommentController {
 
     private final CommentService commentService;

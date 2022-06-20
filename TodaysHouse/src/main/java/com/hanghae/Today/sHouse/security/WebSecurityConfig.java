@@ -3,6 +3,7 @@ package com.hanghae.Today.sHouse.security;
 import com.hanghae.Today.sHouse.security.jwt.JwtAuthenticationFilter;
 import com.hanghae.Today.sHouse.security.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -39,7 +40,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) {
         web.ignoring().antMatchers("/h2-console/**");
-        //web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations());
+        web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations());
     }
 
     @Override
@@ -52,6 +53,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
                 // api 요청 접근허용
                 .antMatchers("/user/**").permitAll()
+                .antMatchers("/api/**").permitAll()
                 .antMatchers("**").permitAll()
                 .antMatchers("/").permitAll()
 
