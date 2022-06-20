@@ -57,22 +57,37 @@ public class CommentService {
     public void updateComment(Long commentId, CommentRequestDto requestDto, UserDetailsImpl userDetails) {
         Comment comment = findComment(commentId);
 
-        String username = comment.getUser().getUsername();
-        String currentUsername = userDetails.getUsername();
-        String updateComment = requestDto.getComment();
+        Long userId = comment.getUser().getId();
+        Long currentId = userDetails.getUser().getId();
+        String getComment = requestDto.getComment();
 
+        idSameCheck(userId, currentId);
 
-        //방금 저장한 이름이랑 수정을 신청한 이름이랑 같다면
-        if(username.equals(currentUsername)){
-            comment.setComment(updateComment);
-            commentRepository.save(comment);
-        }
-        else{
-            throw new IllegalArgumentException("본인이 작성한 댓글만 수정할 수 있습니다.");
-        }
+        comment.setComment(getComment);
+        commentRepository.save(comment);    //  -> 삭제해도 될 듯?
+    }
+
+    //댓글 삭제
+    @Transactional
+    public void deleteComment(Long commentId, UserDetailsImpl userDetails) {
+        Comment comment = findComment(commentId);
+
+        Long userId = comment.getUser().getId();
+        Long currentId = userDetails.getUser().getId();
+
+        idSameCheck(userId, currentId);
+
+        commentRepository.deleteById(commentId);
     }
 
 
+
+    //아이디 동일 체크
+    private void idSameCheck(Long userId, Long currentId) {
+        if (!userId.equals(currentId)) {
+            throw new IllegalArgumentException("본인이 작성한 글만 수정할 수 있습니다.");
+        }
+    }
 
     //댓글 불러와서 리스트에 저장
     private void commentRequestList(Long postId, String username, List<CommentResponseDto> commentResponseDtoList, List<Comment> comments) {
@@ -91,8 +106,9 @@ public class CommentService {
 
     //게시글 찾기
     private Post findPost(Long postId) {
-        Post returnPost = postRepository.findById(postId).orElseThrow(() ->
-                new IllegalArgumentException("게시글이 없습니다."));
+        Post returnPost = postRepository.findById(postId).orElseThrow(
+                () -> new IllegalArgumentException("게시글이 없습니다.")
+        );
         return returnPost;
     }
 
@@ -103,8 +119,4 @@ public class CommentService {
         );
         return returnComment;
     }
-
-
-
-
 }

@@ -17,7 +17,7 @@ public class BookmarkController {
 
     //북마크 클릭
     @PostMapping("/api/bookmark/{postId}")
-    public ResponseEntity<Boolean> IsLike(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails){
+    public ResponseEntity<Boolean> IsBookmark(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails){
         Long userId = userDetails.getUser().getId();
         return new ResponseEntity<>(bookmarkService.clickToBookmark(postId, userId), HttpStatus.OK);
     }

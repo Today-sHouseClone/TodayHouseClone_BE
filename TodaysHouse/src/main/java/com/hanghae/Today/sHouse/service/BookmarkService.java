@@ -36,13 +36,13 @@ public class BookmarkService {
         Bookmark findBookmark = bookmarkRepository.findByPostAndUser(post, user).orElse(null);
 
         if(findBookmark == null){
-            bookmark.getPost().setHeartCnt(BookmarkCnt+1);
+            bookmark.getPost().setBookmarkCnt(BookmarkCnt+1);
 
             bookmarkRepository.save(bookmark);
             toggleBookmark = true;
         }
         else{
-            bookmark.getPost().setHeartCnt(BookmarkCnt-1);
+            bookmark.getPost().setBookmarkCnt(BookmarkCnt-1);
 
             bookmarkRepository.deleteById(findBookmark.getId());
             toggleBookmark = false;

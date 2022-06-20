@@ -47,7 +47,7 @@ public class UserController {
         String token = jwtTokenProvider.createToken(loginRequestDto.getUsername());
         System.out.println(token);
         response.addHeader("Authorization", token);
-        return new ResponseEntity<>(nickName + "로그인에 성공하셨습니다!", HttpStatus.OK);
+        return new ResponseEntity<>(nickName + "님! 로그인에 성공하셨습니다.", HttpStatus.OK);
     }
 
     //닉네임 중복 체크
@@ -57,6 +57,6 @@ public class UserController {
         if(found.isPresent()){
             return new ResponseEntity<>("닉네임이 중복되었습니다.", HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>("축하해요! 닉네임을 사용하실 수 있습니다!.", HttpStatus.OK);
+        return new ResponseEntity<>("축하해요! 닉네임을 사용하실 수 있습니다!", HttpStatus.OK);
     }
 }

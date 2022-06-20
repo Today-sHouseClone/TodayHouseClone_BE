@@ -109,12 +109,25 @@ public class PostService {
         postRepository.deleteById(postId);
     }
 
+
+
+
+    /*
+    public ResponseEntity<PostResponseDto> getPost(Long id, String user) {
+        Post post = postRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("게시글이 존재하지 않습니다."));
+        Long heartCnt = 0L;
+        Long bookmarkCnt = 0L;
+        PostResponseDto.DetailResponse detailDto = PostResponseDto.DetailResponse.builder().build();
+        return new ResponseEntity(detailDto, HttpStatus.OK);
+    }
+
+     */
+
     //아이디 동일 체크
     private void idSameCheck(Long userId, Long currentId) {
         if (!userId.equals(currentId)) {
             throw new IllegalArgumentException("본인이 작성한 글만 수정할 수 있습니다.");
         }
-
     }
 
     //MultipartFileDto에서 PostRequestDto로 변환해서 전달, s3 접근 후 Multipart -> url+string
