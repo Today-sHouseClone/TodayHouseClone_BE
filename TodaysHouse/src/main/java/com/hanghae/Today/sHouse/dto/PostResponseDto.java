@@ -25,7 +25,8 @@ public class PostResponseDto {
     @Builder
     @Data
     public static class MainResponse {
-        private String nickName;
+        private Long id;
+        private String userNickname;
         private String imageUrl;
         private String content;
 
@@ -41,6 +42,7 @@ public class PostResponseDto {
     @Builder
     @Data
     public static class DetailResponse {
+        private Long id;
         private String size;
         private String type;
         private String style;
@@ -53,7 +55,7 @@ public class PostResponseDto {
 
         private String imageUrl;
         private String content;
-        private String nickName;
+        private String userNickname;
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
     }

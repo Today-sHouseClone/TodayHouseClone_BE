@@ -46,7 +46,8 @@ public class PostService {
         List<PostResponseDto.MainResponse> postResponse = new ArrayList<>();
         for (Post post : posts) {
             PostResponseDto.MainResponse mainDto = PostResponseDto.MainResponse.builder()
-                    .nickName(post.getUser().getUserNickname())
+                    .id(post.getId())
+                    .userNickname(post.getUser().getUserNickname())
                     .imageUrl(post.getImageUrl())
                     .viewCnt(post.getViewCnt())
                     .content(post.getContent())
@@ -112,6 +113,7 @@ public class PostService {
         String userNickname = userDetails.getUser().getUserNickname();
 
         PostResponseDto.DetailResponse detailResponseDto = PostResponseDto.DetailResponse.builder()
+                .id(post.getId())
                 .size(post.getSize())
                 .type(post.getType())
                 .style(post.getStyle())
@@ -122,7 +124,7 @@ public class PostService {
                 .viewCnt(post.getViewCnt())
                 .imageUrl(post.getImageUrl())
                 .content(post.getContent())
-                .nickName(userNickname)
+                .userNickname(userNickname)
                 .createdAt(post.getCreatedAt())
                 .modifiedAt(post.getModifiedAt())
                 .build();
