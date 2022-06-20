@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Base64;
 import java.util.Date;
 
@@ -25,6 +26,8 @@ public class JwtTokenProvider {
     // secretKey 와 같은 민감정보는 숨기는 것이 좋다. (이것은 연습이라서 노출함)
     @Value("K7kjHSF345h345S86F3A2erGB98iWIad")
     private String secretKey;
+    public static final String AUTH_HEADER = "Authorization";
+    public final HttpServletResponse response;
 
     // 토큰 유효시간 30분 설정 (1000L = 1초, 1000L * 60 = 1분)
     private static final long TOKEN_VALID_TIME = 1000L * 60 * 60 * 60;
@@ -38,17 +41,24 @@ public class JwtTokenProvider {
         secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
     }
 
-    // JWT 토큰 생성
+    // 토큰 생성
     public String createToken(String userPk) {
-        Claims claims = Jwts.claims().setSubject(userPk); // JWT payload 에 저장되는 정보단위
+        Claims claims = Jwts.claims().setSubject(userPk);
+//        claims.put("email", email);
+//        claims.put("nickname", nickname);
         Date now = new Date();
-        return Jwts.builder()
-                .setClaims(claims) // 정보 저장
-                .setIssuedAt(now) // 토큰 발행 시간 정보
-                .setExpiration(new Date(now.getTime() + TOKEN_VALID_TIME)) // set Expire Time
-                .signWith(SignatureAlgorithm.HS256, secretKey)  // 사용할 암호화 알고리즘과 signature 에 들어갈 secret값 세팅
+        String token= Jwts.builder()
+                .setClaims(claims)//정보저장
+                .setIssuedAt(now)//토큰 발행 시간 정보
+                .setExpiration(new Date(now.getTime() + TOKEN_VALID_TIME))
+                .signWith(SignatureAlgorithm.HS256, secretKey)//사용할 암호화 알고리즘
+                //signature에 들어갈 secret값 세팅
                 .compact();
+
+        response.addHeader(AUTH_HEADER,token);
+        return token;
     }
+
 
     // JWT 토큰에서 인증 정보 조회
     public Authentication getAuthentication(String token) {

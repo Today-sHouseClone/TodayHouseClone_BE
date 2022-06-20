@@ -1,9 +1,11 @@
 package com.hanghae.Today.sHouse.service;
 
 import com.hanghae.Today.sHouse.dto.LoginRequestDto;
+import com.hanghae.Today.sHouse.dto.LoginResponseDto;
 import com.hanghae.Today.sHouse.dto.SignupRequestDto;
 import com.hanghae.Today.sHouse.model.User;
 import com.hanghae.Today.sHouse.repository.UserRepository;
+import com.hanghae.Today.sHouse.security.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +22,7 @@ import java.util.regex.Pattern;
 public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-
+    private final JwtTokenProvider jwtTokenProvider;
 
     @Transactional
     public void registerUser(SignupRequestDto requestDto){
@@ -59,11 +61,9 @@ public class UserService {
 
     //로그인
     @Transactional
-    public String login(LoginRequestDto loginRequestDto) {
+    public LoginResponseDto  loginUser(LoginRequestDto loginRequestDto) {
         User user = userRepository.findByUsername(loginRequestDto.getUsername())
                 .orElse(null);
-
-        String userNickname = user.getUserNickname();
 
         if (user != null) {
             if (!passwordEncoder.matches(loginRequestDto.getPassword(), user.getPassword())) {
@@ -72,6 +72,8 @@ public class UserService {
         } else {
             throw new IllegalArgumentException("아이디 혹은 비밀번호가 다릅니다.");
         }
-        return userNickname;
+        return new LoginResponseDto(jwtTokenProvider.createToken(loginRequestDto.getUsername()), true, "로그인 성공");
     }
+
+
 }

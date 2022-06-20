@@ -31,12 +31,6 @@ public class PostController {
                                          MultipartFileDto requestDto){
 
         try{
-//            logger.warn(String.valueOf(requestDto.getImageUrl()));
-//            logger.warn(String.valueOf(requestDto.getContent()));
-//            logger.warn(String.valueOf(requestDto.getArea()));
-//            logger.warn(String.valueOf(requestDto.getSize()));
-//            logger.warn(String.valueOf(requestDto.getType()));
-//            logger.warn(String.valueOf(userDetails.getUser().getUserNickname()));
             postService.createPost(userDetails, requestDto);
             return new ResponseEntity<>("게시글 등록을 성공하였습니다.", HttpStatus.CREATED);
         }catch(IllegalArgumentException e){
