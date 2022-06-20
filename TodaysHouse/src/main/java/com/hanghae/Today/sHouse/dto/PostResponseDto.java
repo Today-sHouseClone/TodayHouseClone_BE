@@ -10,7 +10,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Getter
 @Setter
-@Builder
 public class PostResponseDto {
     private Long id;
     private int size;
@@ -22,13 +21,31 @@ public class PostResponseDto {
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 
-    public static PostResponseDto from(Post post) {
-        return PostResponseDto.builder()
-                .size(post.getSize())
-                .type(post.getType())
-                .style(post.getStyle())
-                .content(post.getContent())
-                .createdAt(post.getCreatedAt())
-                .build();
+    @Builder
+    @Data
+    public static class MainResponse {
+        private String nickName;
+        private int size;
+        private String type;
+        private String style;
+        private String area;
+        private MultipartFile imageUrl;
+        private String content;
+        private LocalDateTime createdAt;
+        private LocalDateTime modifiedAt;
+    }
+
+    @Builder
+    @Data
+    public static class DetailResponse {
+        private Long id;
+        private int size;
+        private String type;
+        private String style;
+        private String area;
+        private MultipartFile imageUrl;
+        private String content;
+        private LocalDateTime createdAt;
+        private LocalDateTime modifiedAt;
     }
 }
