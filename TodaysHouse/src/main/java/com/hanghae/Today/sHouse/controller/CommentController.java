@@ -61,13 +61,13 @@ public class CommentController {
 
     //댓글 삭제
     @DeleteMapping("/api/comment/{commentId}")
-    public ResponseEntity<String> deleteComment(@PathVariable Long commentId) {
-        Optional<Comment> fByCommentId = commentRepository.findById(commentId);
-        if (fByCommentId.isEmpty()) {
-            throw new IllegalArgumentException("댓글이 존재하지 않습니다.");
+    public ResponseEntity<String> deleteComment(@PathVariable Long commentId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        try{
+            commentService.deleteComment(commentId, userDetails);
+            return new ResponseEntity<>("댓글 삭제에 성공하셨습니다.", HttpStatus.OK);
+        }catch (IllegalArgumentException e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
 
-        commentRepository.deleteById(commentId);
-        return new ResponseEntity<>("댓글 삭제에 성공하셨습니다.", HttpStatus.OK);
     }
 }

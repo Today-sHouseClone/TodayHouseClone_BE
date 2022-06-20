@@ -7,6 +7,7 @@ import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.hanghae.Today.sHouse.dto.MultipartFileDto;
 import com.hanghae.Today.sHouse.dto.PostRequestDto;
+import com.hanghae.Today.sHouse.dto.PostResponseDto;
 import com.hanghae.Today.sHouse.model.Post;
 import com.hanghae.Today.sHouse.model.User;
 import com.hanghae.Today.sHouse.repository.PostRepository;
@@ -14,6 +15,7 @@ import com.hanghae.Today.sHouse.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -82,12 +84,25 @@ public class PostService {
         postRepository.deleteById(postId);
     }
 
+
+
+
+    /*
+    public ResponseEntity<PostResponseDto> getPost(Long id, String user) {
+        Post post = postRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("게시글이 존재하지 않습니다."));
+        Long heartCnt = 0L;
+        Long bookmarkCnt = 0L;
+        PostResponseDto.DetailResponse detailDto = PostResponseDto.DetailResponse.builder().build();
+        return new ResponseEntity(detailDto, HttpStatus.OK);
+    }
+
+     */
+
     //아이디 동일 체크
     private void idSameCheck(Long userId, Long currentId) {
         if (!userId.equals(currentId)) {
             throw new IllegalArgumentException("본인이 작성한 글만 수정할 수 있습니다.");
         }
-
     }
 
     //MultipartFileDto에서 PostRequestDto로 변환해서 전달, s3 접근 후 Multipart -> url+string

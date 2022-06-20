@@ -5,6 +5,8 @@ import com.hanghae.Today.sHouse.dto.SignupRequestDto;
 import com.hanghae.Today.sHouse.model.User;
 import com.hanghae.Today.sHouse.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,6 +33,11 @@ public class UserService {
         //- 데이터베이스에 존재하는 닉네임을 입력한 채 회원가입 버튼을 누른 경우 "중복된 닉네임입니다." 라는 에러메세지
         if (found.isPresent())
             throw new IllegalArgumentException("중복된 이메일입니다.");
+
+        Optional<User> foundNick = userRepository.findByUserNickname(userNickname);
+        if(foundNick.isPresent()){
+            throw new IllegalArgumentException("닉네임이 중복되었습니다.");
+        }
 
         //- 닉네임은 `최소 3자 이상, 알파벳 대소문자(a~z, A~Z), 숫자(0~9)`로 구성하기
         String pattern = "^[a-zA-Z0-9ㄱ-ㅣ가-힣ㄱ-ㅣ가-힣]*$";
