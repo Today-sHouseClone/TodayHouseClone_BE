@@ -42,7 +42,6 @@ public class PostService {
     //게시글 등록
     @Transactional
     public void createPost(UserDetailsImpl userDetails, MultipartFileDto requestDto) {
-
         User user = userDetails.getUser();
 
         PostRequestDto postRequestDto = getPostRequestDto(requestDto);
