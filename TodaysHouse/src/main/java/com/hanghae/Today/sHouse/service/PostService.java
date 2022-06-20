@@ -61,8 +61,6 @@ public class PostService {
     public void createPost(UserDetailsImpl userDetails, MultipartFileDto requestDto) {
         User user = userDetails.getUser();
 
-        System.out.println("이미지 URL POST : " + requestDto.getImageUrl());
-
         PostRequestDto postRequestDto = getPostRequestDto(requestDto);
 
         Post post = new Post(user, postRequestDto);
