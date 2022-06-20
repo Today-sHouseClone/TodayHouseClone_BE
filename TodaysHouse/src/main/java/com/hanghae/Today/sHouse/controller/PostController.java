@@ -22,12 +22,6 @@ public class PostController {
         return postService.getAllPost();
     }
 
-    //게시글 상세조회
-    @GetMapping("/api/post/{id}")
-    public ResponseEntity<PostResponseDto> getPost(@PathVariable Long id){
-        return new ResponseEntity(postService.getPost(id) , HttpStatus.OK);
-    }
-
     //게시글 등록
     @PostMapping("/api/post")
     public ResponseEntity<String>addPost(@AuthenticationPrincipal UserDetailsImpl userDetails,

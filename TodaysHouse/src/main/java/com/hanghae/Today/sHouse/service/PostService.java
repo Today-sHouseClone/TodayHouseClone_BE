@@ -45,21 +45,19 @@ public class PostService {
         List<Post> posts = postRepository.findAllByOrderByCreatedAtDesc();
         List<PostResponseDto.MainResponse> postResponse = new ArrayList<>();
         for (Post post : posts) {
-            PostResponseDto.MainResponse mainDto = PostResponseDto.MainResponse.builder().build();
+            PostResponseDto.MainResponse mainDto = PostResponseDto.MainResponse.builder()
+                    .nickName(post.getUser().getUserNickname())
+                    .imageUrl(post.getImageUrl())
+                    .content(post.getContent())
+                    .heartCnt(post.getHeartCnt())
+                    .bookmarkCnt(post.getBookmarkCnt())
+                    .commentCnt(post.getCommentCnt())
+                    .createdAt(post.getCreatedAt())
+                    .modifiedAt(post.getModifiedAt())
+                    .build();
             postResponse.add(mainDto);
         }
         return new ResponseEntity(postResponse, HttpStatus.OK);
-    }
-
-    //게시글 상세조회
-    public ResponseEntity<PostResponseDto> getPost(Long id) {
-        Post post = postRepository.findById(id).orElseThrow(
-                () -> new IllegalArgumentException("게시글이 존재하지 않습니다.")
-        );
-        Long heartCnt = 0L;
-        Long bookmarkCnt = 0L;
-        PostResponseDto.DetailResponse detailDto = PostResponseDto.DetailResponse.builder().build();
-        return new ResponseEntity(detailDto, HttpStatus.OK);
     }
 
     //게시글 등록

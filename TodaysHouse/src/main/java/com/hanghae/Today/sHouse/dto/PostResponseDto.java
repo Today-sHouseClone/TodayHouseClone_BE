@@ -25,10 +25,13 @@ public class PostResponseDto {
     @Data
     public static class MainResponse {
         private String nickName;
-        private MultipartFile imageUrl;
+        private String imageUrl;
         private String content;
-        private Long heartCnt;
-        private Long bookmarkCnt;
+
+        private int heartCnt;
+        private int bookmarkCnt;
+        private int commentCnt;
+
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
     }
