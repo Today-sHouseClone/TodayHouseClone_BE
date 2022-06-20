@@ -18,8 +18,14 @@ public class BookmarkController {
     //북마크 클릭
     @PostMapping("/api/bookmark/{postId}")
     public ResponseEntity<Boolean> IsBookmark(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails){
-        Long userId = userDetails.getUser().getId();
-        return new ResponseEntity<>(bookmarkService.clickToBookmark(postId, userId), HttpStatus.OK);
+        try{
+            Long userId = userDetails.getUser().getId();
+            return new ResponseEntity<>(bookmarkService.clickToBookmark(postId, userId), HttpStatus.OK);
+        }
+        catch(IllegalArgumentException e){
+            return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+
     }
     //지금 로그인한 userId가 Bookmark를 true한것만 가져오기.
 }

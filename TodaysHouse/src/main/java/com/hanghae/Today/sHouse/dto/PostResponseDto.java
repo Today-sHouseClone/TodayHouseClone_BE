@@ -27,11 +27,13 @@ public class PostResponseDto {
         private String type;
         private String style;
         private String area;
-        private Long heartCnt;
-        private Long bookmarkCnt;
-        private Long commentCnt;
-        private Long viewCnt;
-        private MultipartFile imageUrl;
+
+        private int heartCnt;
+        private int bookmarkCnt;
+        private int commentCnt;
+        private int viewCnt;
+
+        private String imageUrl;
         private String content;
         private String nickName;
         private LocalDateTime createdAt;

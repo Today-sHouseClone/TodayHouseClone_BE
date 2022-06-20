@@ -19,8 +19,13 @@ public class HeartController {
     //좋아요 클릭
     @PostMapping("/api/like/{postId}")
     public ResponseEntity<Boolean> IsHeart(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails){
-        Long userId = userDetails.getUser().getId();
-        return new ResponseEntity<>(heartService.clickToHeart(postId, userId), HttpStatus.OK);
+        try{
+            Long userId = userDetails.getUser().getId();
+            return new ResponseEntity<>(heartService.clickToHeart(postId, userId), HttpStatus.OK);
+        }
+        catch(IllegalArgumentException e){
+            return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
 }

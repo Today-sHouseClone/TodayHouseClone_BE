@@ -51,9 +51,7 @@ public class PostService {
     //게시글 수정
     @Transactional
     public void updatePost(Long postId, MultipartFileDto requestDto, UserDetailsImpl userDetails) {
-        Post post = postRepository.findById(postId).orElseThrow(
-                () -> new NullPointerException("게시글이 존재하지 않습니다.")
-        );
+        Post post = checkPost(postId);
 
         User user = post.getUser();
         Long userId = user.getId();
@@ -69,9 +67,8 @@ public class PostService {
     //게시글 삭제
     @Transactional
     public void deletePost(Long postId, UserDetailsImpl userDetails) {
-        Post post = postRepository.findById(postId).orElseThrow(
-                () -> new NullPointerException("게시글이 존재하지 않습니다.")
-        );
+        Post post = checkPost(postId);
+
         User user = post.getUser();
         Long userId = user.getId();
         Long currentId = userDetails.getUser().getId();
@@ -84,19 +81,40 @@ public class PostService {
         postRepository.deleteById(postId);
     }
 
+    //게시글 상세조회
+    @Transactional
+    public ResponseEntity<PostResponseDto> getDetailsPost(Long postId, UserDetailsImpl userDetails) {
+        Post post = checkPost(postId);
+        String userNickname = userDetails.getUser().getUserNickname();
 
+        PostResponseDto.DetailResponse detailResponseDto = PostResponseDto.DetailResponse.builder()
+                .size(post.getSize())
+                .type(post.getType())
+                .style(post.getStyle())
+                .area(post.getArea())
+                .heartCnt(post.getHeartCnt())
+                .bookmarkCnt(post.getBookmarkCnt())
+                .commentCnt(post.getCommentCnt())
+                .viewCnt(post.getViewCnt())
+                .imageUrl(post.getImageUrl())
+                .content(post.getContent())
+                .nickName(userNickname)
+                .createdAt(post.getCreatedAt())
+                .modifiedAt(post.getModifiedAt())
+                .build();
 
-
-    /*
-    public ResponseEntity<PostResponseDto> getPost(Long id, String user) {
-        Post post = postRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("게시글이 존재하지 않습니다."));
-        Long heartCnt = 0L;
-        Long bookmarkCnt = 0L;
-        PostResponseDto.DetailResponse detailDto = PostResponseDto.DetailResponse.builder().build();
-        return new ResponseEntity(detailDto, HttpStatus.OK);
+        post.setViewCnt(post.getViewCnt() + 1);
+        return new ResponseEntity(detailResponseDto, HttpStatus.OK);
     }
 
-     */
+
+    //게시글 유무
+    private Post checkPost(Long postId) {
+        Post post = postRepository.findById(postId).orElseThrow(
+                () -> new NullPointerException("게시글이 존재하지 않습니다.")
+        );
+        return post;
+    }
 
     //아이디 동일 체크
     private void idSameCheck(Long userId, Long currentId) {
