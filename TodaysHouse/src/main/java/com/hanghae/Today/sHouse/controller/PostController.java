@@ -3,18 +3,23 @@ package com.hanghae.Today.sHouse.controller;
 import com.hanghae.Today.sHouse.dto.MultipartFileDto;
 import com.hanghae.Today.sHouse.dto.PostResponseDto;
 import com.hanghae.Today.sHouse.model.Post;
+import com.hanghae.Today.sHouse.repository.PostRepository;
 import com.hanghae.Today.sHouse.security.UserDetailsImpl;
 import com.hanghae.Today.sHouse.service.PostService;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @RestController
 public class PostController {
     private final PostService postService;
+    private final PostRepository postRepository;
 
     //메인페이지 조회
     @GetMapping("/api/posts")
@@ -63,5 +68,11 @@ public class PostController {
     @GetMapping("/api/post/{postId}")
     public ResponseEntity<PostResponseDto> getDetailsPost(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return new ResponseEntity(postService.getDetailsPost(postId, userDetails), HttpStatus.OK);
+    }
+
+    //조회수 랭킹 Jsonignore 어노테이션을 활용해서 순수 post만 꺼내왔다
+    @GetMapping("/api/post/ranking")
+    public ResponseEntity<List<Post>> getPostRanking(){
+        return new ResponseEntity<>(postRepository.findAllByOrderByViewCntDesc(), HttpStatus.OK);
     }
 }

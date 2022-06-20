@@ -11,7 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PostRequestDto {
-    private int size;
+    private String size;
     private String type;
     private String style;
     private String area;

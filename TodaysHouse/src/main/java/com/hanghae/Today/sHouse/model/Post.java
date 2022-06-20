@@ -1,15 +1,12 @@
 package com.hanghae.Today.sHouse.model;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.hanghae.Today.sHouse.dto.MultipartFileDto;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hanghae.Today.sHouse.dto.PostRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 import java.util.List;
 
 @Entity
@@ -27,7 +24,7 @@ public class Post extends Timestamped {
     private Long id;
 
     @Column
-    private int size;
+    private String size;
 
     @Column
     private String type;
@@ -57,10 +54,12 @@ public class Post extends Timestamped {
     private int viewCnt;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
     @JoinColumn(name="USER_ID")
     private User user;
 
-    @JsonManagedReference // 직렬화 허용 어노테이션
+    //@JsonManagedReference // 직렬화 허용 어노테이션
+    @JsonIgnore
     @OneToMany(mappedBy = "post", orphanRemoval = true) // orpahRemanal = true 부모 삭제시 자식도 삭제
     private List<Comment> comments;
 
