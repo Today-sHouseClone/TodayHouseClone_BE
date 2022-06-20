@@ -42,8 +42,14 @@ public class CommentController {
     @GetMapping("/api/comment/{postId}")
     public ResponseEntity<List<CommentResponseDto>> findComment(@PathVariable Long postId,
                                                                 @AuthenticationPrincipal UserDetailsImpl userDetails){
-        String username = userDetails.getUsername();
-        return new ResponseEntity<>(commentService.findComment(postId, username), HttpStatus.OK);
+        try{
+            String username = userDetails.getUsername();
+            return new ResponseEntity<>(commentService.findComment(postId, username), HttpStatus.OK);
+        }catch(IllegalArgumentException e){
+            return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+
+
     }
 
     //댓글 수정

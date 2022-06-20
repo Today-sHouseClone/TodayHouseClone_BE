@@ -59,11 +59,15 @@ public class PostController {
                                             @AuthenticationPrincipal UserDetailsImpl userDetails){
         try{
             postService.deletePost(postId, userDetails);
-            return new ResponseEntity<>("삭제에 성공하셨습니다.", HttpStatus.OK);
+            return new ResponseEntity("삭제에 성공하셨습니다.", HttpStatus.OK);
         }catch(IllegalArgumentException e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
-
+    //게시글 상세조회
+    @GetMapping("/api/post/{postId}")
+    public ResponseEntity<PostResponseDto> getDetailsPost(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return new ResponseEntity(postService.getDetailsPost(postId, userDetails), HttpStatus.OK);
+    }
 }
