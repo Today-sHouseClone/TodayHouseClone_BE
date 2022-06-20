@@ -11,10 +11,11 @@ import java.time.LocalDateTime;
 @Setter
 public class PostResponseDto {
     private Long id;
-    private int size;
+    private String size;
     private String type;
     private String style;
     private String area;
+
     private MultipartFile imageUrl;
     private String content;
     private LocalDateTime createdAt;
@@ -23,7 +24,7 @@ public class PostResponseDto {
     @Builder
     @Data
     public static class DetailResponse {
-        private int size;
+        private String size;
         private String type;
         private String style;
         private String area;

@@ -125,7 +125,7 @@ public class PostService {
 
     //MultipartFileDto에서 PostRequestDto로 변환해서 전달, s3 접근 후 Multipart -> url+string
     private PostRequestDto getPostRequestDto(MultipartFileDto requestDto) {
-        int size = requestDto.getSize();
+        String size = requestDto.getSize();
         String type = requestDto.getType();
         String style = requestDto.getStyle();
         String area = requestDto.getArea();

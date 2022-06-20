@@ -12,7 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Getter
 @Setter
 public class MultipartFileDto {
-    private int size;
+    private String size;
     private String type;
     private String style;
     private String area;
