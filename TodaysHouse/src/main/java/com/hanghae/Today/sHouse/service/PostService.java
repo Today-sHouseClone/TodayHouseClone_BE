@@ -52,7 +52,7 @@ public class PostService {
     }
 
     //게시글 상세조회
-    public ResponseEntity<PostResponseDto> getPost(Long id, String user) {
+    public ResponseEntity<PostResponseDto> getPost(Long id) {
         Post post = postRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("게시글이 존재하지 않습니다.")
         );

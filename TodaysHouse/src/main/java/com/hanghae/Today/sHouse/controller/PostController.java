@@ -24,8 +24,8 @@ public class PostController {
 
     //게시글 상세조회
     @GetMapping("/api/post/{id}")
-    public ResponseEntity<PostResponseDto> getPost(@PathVariable Long id, String user){
-        return new ResponseEntity(postService.getPost(id, user) , HttpStatus.OK);
+    public ResponseEntity<PostResponseDto> getPost(@PathVariable Long id){
+        return new ResponseEntity(postService.getPost(id) , HttpStatus.OK);
     }
 
     //게시글 등록
