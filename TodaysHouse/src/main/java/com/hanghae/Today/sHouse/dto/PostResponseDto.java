@@ -25,12 +25,10 @@ public class PostResponseDto {
     @Data
     public static class MainResponse {
         private String nickName;
-        private int size;
-        private String type;
-        private String style;
-        private String area;
         private MultipartFile imageUrl;
         private String content;
+        private Long heartCnt;
+        private Long bookmarkCnt;
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
     }
@@ -38,13 +36,17 @@ public class PostResponseDto {
     @Builder
     @Data
     public static class DetailResponse {
-        private Long id;
         private int size;
         private String type;
         private String style;
         private String area;
+        private Long heartCnt;
+        private Long bookmarkCnt;
+        private Long commentCnt;
+        private Long viewCnt;
         private MultipartFile imageUrl;
         private String content;
+        private String nickName;
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
     }

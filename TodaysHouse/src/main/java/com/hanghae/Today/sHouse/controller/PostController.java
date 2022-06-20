@@ -24,10 +24,8 @@ public class PostController {
 
     //게시글 상세조회
     @GetMapping("/api/post/{id}")
-    public PostResponseDto getPost(@PathVariable Long id) {
-        Post post = postService.getPost(id).orElseThrow(
-                () -> new IllegalArgumentException("게시물이 존재하지 않습니다."));
-        return PostResponseDto.from(post);
+    public ResponseEntity<PostResponseDto> getPost(@PathVariable Long id, String user){
+        return new ResponseEntity(postService.getPost(id, user) , HttpStatus.OK);
     }
 
     //게시글 등록
