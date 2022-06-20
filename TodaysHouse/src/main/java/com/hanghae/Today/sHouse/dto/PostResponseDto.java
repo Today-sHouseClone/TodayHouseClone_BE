@@ -28,6 +28,7 @@ public class PostResponseDto {
         private String imageUrl;
         private String content;
 
+        private int viewCnt;
         private int heartCnt;
         private int bookmarkCnt;
         private int commentCnt;

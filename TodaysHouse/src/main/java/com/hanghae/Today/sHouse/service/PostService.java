@@ -48,6 +48,7 @@ public class PostService {
             PostResponseDto.MainResponse mainDto = PostResponseDto.MainResponse.builder()
                     .nickName(post.getUser().getUserNickname())
                     .imageUrl(post.getImageUrl())
+                    .viewCnt(post.getViewCnt())
                     .content(post.getContent())
                     .heartCnt(post.getHeartCnt())
                     .bookmarkCnt(post.getBookmarkCnt())
