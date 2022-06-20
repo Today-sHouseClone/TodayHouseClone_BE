@@ -9,13 +9,12 @@ import com.hanghae.Today.sHouse.service.PostService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-
+import org.slf4j.Logger;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -36,13 +35,14 @@ public class PostController {
     @PostMapping("/api/post")
     public ResponseEntity<String>addPost(@AuthenticationPrincipal UserDetailsImpl userDetails,
                                          MultipartFileDto requestDto){
+
         try{
-            logger.warn(String.valueOf(requestDto.getImageUrl()));
-            logger.warn(String.valueOf(requestDto.getContent()));
-            logger.warn(String.valueOf(requestDto.getArea()));
-            logger.warn(String.valueOf(requestDto.getSize()));
-            logger.warn(String.valueOf(requestDto.getType()));
-            logger.warn(String.valueOf(userDetails.getUser().getUserNickname()));
+//            logger.warn(String.valueOf(requestDto.getImageUrl()));
+//            logger.warn(String.valueOf(requestDto.getContent()));
+//            logger.warn(String.valueOf(requestDto.getArea()));
+//            logger.warn(String.valueOf(requestDto.getSize()));
+//            logger.warn(String.valueOf(requestDto.getType()));
+//            logger.warn(String.valueOf(userDetails.getUser().getUserNickname()));
             postService.createPost(userDetails, requestDto);
             return new ResponseEntity<>("게시글 등록을 성공하였습니다.", HttpStatus.CREATED);
         }catch(IllegalArgumentException e){

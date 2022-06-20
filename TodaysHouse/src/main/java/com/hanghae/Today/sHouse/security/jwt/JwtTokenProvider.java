@@ -1,5 +1,7 @@
 package com.hanghae.Today.sHouse.security.jwt;
 
+import com.hanghae.Today.sHouse.repository.UserRepository;
+import com.hanghae.Today.sHouse.security.UserDetailsImpl;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
@@ -28,6 +30,7 @@ public class JwtTokenProvider {
     private static final long TOKEN_VALID_TIME = 1000L * 60 * 60 * 60;
 
     private final UserDetailsService userDetailsService;
+    private final UserRepository userRepository;
 
     // 객체 초기화, secretKey 를 Base64로 인코딩한다.
     @PostConstruct
@@ -49,7 +52,10 @@ public class JwtTokenProvider {
 
     // JWT 토큰에서 인증 정보 조회
     public Authentication getAuthentication(String token) {
-        UserDetails userDetails = userDetailsService.loadUserByUsername(this.getUserPk(token));
+        //UserDetails userDetails = userDetailsService.loadUserByUsername(this.getUserPk(token));
+        UserDetailsImpl userDetails = new UserDetailsImpl(userRepository.findByUsername(this.getUserPk(token)).orElseThrow(
+                ()-> new IllegalArgumentException("인증 정보가 없습니다.")
+        ));
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 
