@@ -42,13 +42,13 @@ public class CommentService {
     }
 
     //댓글 조회
-    public List<CommentResponseDto> findComment(Long postId, String username) {
+    public List<CommentResponseDto> findComment(Long postId, String userNickname) {
         Post findPost = findPost(postId);
 
         List<CommentResponseDto>commentResponseDtoList = new ArrayList<>();
         List<Comment> comments = findPost.getComments();
 
-        commentRequestList(postId, username, commentResponseDtoList, comments);
+        commentRequestList(postId, userNickname, commentResponseDtoList, comments);
         return commentResponseDtoList;
     }
 
@@ -90,14 +90,14 @@ public class CommentService {
     }
 
     //댓글 불러와서 리스트에 저장
-    private void commentRequestList(Long postId, String username, List<CommentResponseDto> commentResponseDtoList, List<Comment> comments) {
+    private void commentRequestList(Long postId, String userNickname, List<CommentResponseDto> commentResponseDtoList, List<Comment> comments) {
         for(Comment comment : comments){
             Long id = comment.getId();
             String getComment = comment.getComment();
             LocalDateTime createdAt = comment.getCreatedAt();
             LocalDateTime modifiedAt = comment.getModifiedAt();
 
-            CommentResponseDto commentResponseDto = new CommentResponseDto(postId, id, getComment, username, createdAt, modifiedAt);
+            CommentResponseDto commentResponseDto = new CommentResponseDto(postId, id, getComment, userNickname, createdAt, modifiedAt);
 
             commentResponseDtoList.add(commentResponseDto);
         }

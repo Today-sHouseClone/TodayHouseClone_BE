@@ -43,13 +43,11 @@ public class CommentController {
     public ResponseEntity<List<CommentResponseDto>> findComment(@PathVariable Long postId,
                                                                 @AuthenticationPrincipal UserDetailsImpl userDetails){
         try{
-            String username = userDetails.getUsername();
-            return new ResponseEntity<>(commentService.findComment(postId, username), HttpStatus.OK);
+            String userNickname = userDetails.getUser().getUserNickname();
+            return new ResponseEntity<>(commentService.findComment(postId, userNickname), HttpStatus.OK);
         }catch(IllegalArgumentException e){
             return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
-
-
     }
 
     //댓글 수정
