@@ -58,34 +58,34 @@ public class HeartService {
     }
 
     //Comment 좋아요 누르기
-    @Transactional
-    public boolean clickToCommentHeart(Long commentId, Long userId) {
-        Comment comment = getComment(commentId);
-        User user = getUser(userId);
-
-        boolean toggleLike;
-
-        CommentHeartDto commentHeartDto = new CommentHeartDto(comment, user);
-        Heart heart = new Heart(commentHeartDto);
-        int likeCnt = heart.getComment().getCommentHeartCnt();
-
-        //지금 로그인 되어있는 사용자가 해당 포스트에 좋아요를 누른적이 있냐 없냐.
-        Heart findHeart = heartRepository.findByCommentAndUser(comment, user).orElse(null);
-
-        if(findHeart == null){
-            heart.getComment().setCommentHeartCnt(likeCnt+1);
-
-            heartRepository.save(heart);
-            toggleLike = true;
-        }
-        else{
-            heart.getComment().setCommentHeartCnt(likeCnt-1);
-
-            heartRepository.deleteById(findHeart.getId());
-            toggleLike = false;
-        }
-        return toggleLike;
-    }
+//    @Transactional
+//    public boolean clickToCommentHeart(Long commentId, Long userId) {
+//        Comment comment = getComment(commentId);
+//        User user = getUser(userId);
+//
+//        boolean toggleLike;
+//
+//        CommentHeartDto commentHeartDto = new CommentHeartDto(comment, user);
+//        Heart heart = new Heart(commentHeartDto);
+//        int likeCnt = heart.getComment().getCommentHeartCnt();
+//
+//        //지금 로그인 되어있는 사용자가 해당 포스트에 좋아요를 누른적이 있냐 없냐.
+//        Heart findHeart = heartRepository.findByCommentAndUser(comment, user).orElse(null);
+//
+//        if(findHeart == null){
+//            heart.getComment().setCommentHeartCnt(likeCnt+1);
+//
+//            heartRepository.save(heart);
+//            toggleLike = true;
+//        }
+//        else{
+//            heart.getComment().setCommentHeartCnt(likeCnt-1);
+//
+//            heartRepository.deleteById(findHeart.getId());
+//            toggleLike = false;
+//        }
+//        return toggleLike;
+//    }
 
 
     private User getUser(Long userId) {
