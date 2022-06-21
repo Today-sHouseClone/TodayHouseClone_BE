@@ -30,7 +30,7 @@ public class BookmarkService {
 
         BookmarkDto bookmarkDto = new BookmarkDto(post, user);
         Bookmark bookmark = new Bookmark(bookmarkDto);
-        int BookmarkCnt = bookmark.getPost().getHeartCnt();
+        int BookmarkCnt = bookmark.getPost().getBookmarkCnt();
 
         //지금 로그인 되어있는 사용자가 해당 포스트에 좋아요를 누른적이 있냐 없냐.
         Bookmark findBookmark = bookmarkRepository.findByPostAndUser(post, user).orElse(null);

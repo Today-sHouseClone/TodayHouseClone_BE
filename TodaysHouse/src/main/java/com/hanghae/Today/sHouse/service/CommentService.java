@@ -90,7 +90,7 @@ public class CommentService {
     //아이디 동일 체크
     private void idSameCheck(Long userId, Long currentId) {
         if (!userId.equals(currentId)) {
-            throw new IllegalArgumentException("본인이 작성한 글만 수정할 수 있습니다.");
+            throw new IllegalArgumentException("본인이 작성한 글만 수정/삭제 할 수 있습니다.");
         }
     }
 
