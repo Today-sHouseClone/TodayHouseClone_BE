@@ -3,6 +3,7 @@ package com.hanghae.Today.sHouse.dto;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @AllArgsConstructor
 @NoArgsConstructor

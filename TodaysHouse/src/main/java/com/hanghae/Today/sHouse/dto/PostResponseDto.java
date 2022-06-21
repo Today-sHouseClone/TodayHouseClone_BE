@@ -1,6 +1,5 @@
 package com.hanghae.Today.sHouse.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hanghae.Today.sHouse.model.Comment;
 import com.hanghae.Today.sHouse.model.Post;
 import lombok.*;
@@ -8,7 +7,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @NoArgsConstructor
 @AllArgsConstructor

@@ -6,12 +6,13 @@ import com.hanghae.Today.sHouse.model.Post;
 import com.hanghae.Today.sHouse.repository.PostRepository;
 import com.hanghae.Today.sHouse.security.UserDetailsImpl;
 import com.hanghae.Today.sHouse.service.PostService;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -37,8 +38,8 @@ public class PostController {
     @PostMapping("/api/post")
     public ResponseEntity<String>addPost(@AuthenticationPrincipal UserDetailsImpl userDetails,
                                          MultipartFileDto requestDto){
-
         try{
+            System.out.println(userDetails.getUsername());
             postService.createPost(userDetails, requestDto);
             return new ResponseEntity<>("게시글 등록을 성공하였습니다.", HttpStatus.CREATED);
         }catch(IllegalArgumentException e){
@@ -79,7 +80,8 @@ public class PostController {
 
     //조회수 랭킹 Jsonignore 어노테이션을 활용해서 순수 post만 꺼내왔다
     @GetMapping("/api/post/ranking")
-    public ResponseEntity<List<Post>> getPostRanking(){
-        return new ResponseEntity<>(postRepository.findAllByOrderByViewCntDesc(), HttpStatus.OK);
+    public ResponseEntity<List<PostResponseDto>> getPostRanking(){
+        Pageable pageable = PageRequest.of(0, 5, Sort.Direction.DESC, "viewCnt");
+        return new ResponseEntity(postRepository.findAllByPostRanking(pageable), HttpStatus.OK);
     }
 }
