@@ -99,9 +99,7 @@ public class CommentService {
         for(Comment comment : comments){
             Long id = comment.getId();
             String getComment = comment.getComment();
-
             String userNickname = comment.getUser().getUserNickname();
-
             LocalDateTime createdAt = comment.getCreatedAt();
             LocalDateTime modifiedAt = comment.getModifiedAt();
 
