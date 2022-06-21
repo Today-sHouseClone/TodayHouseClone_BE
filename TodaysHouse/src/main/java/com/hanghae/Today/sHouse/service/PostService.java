@@ -119,9 +119,8 @@ public class PostService {
 
     //게시글 상세조회
     @Transactional
-    public ResponseEntity<PostResponseDto> getDetailsPost(Long postId, UserDetailsImpl userDetails) {
+    public PostResponseDto.DetailResponse getDetailsPost(Long postId) {
         Post post = checkPost(postId);
-        String userNickname = userDetails.getUser().getUserNickname();
 
         PostResponseDto.DetailResponse detailResponseDto = PostResponseDto.DetailResponse.builder()
                 .id(post.getId())
@@ -135,13 +134,13 @@ public class PostService {
                 .viewCnt(post.getViewCnt())
                 .imageUrl(post.getImageUrl())
                 .content(post.getContent())
-                .userNickname(userNickname)
+                .userNickname(post.getUser().getUserNickname())
                 .createdAt(post.getCreatedAt())
                 .modifiedAt(post.getModifiedAt())
                 .build();
 
         post.setViewCnt(post.getViewCnt() + 1);
-        return new ResponseEntity(detailResponseDto, HttpStatus.OK);
+        return detailResponseDto;
     }
 
 

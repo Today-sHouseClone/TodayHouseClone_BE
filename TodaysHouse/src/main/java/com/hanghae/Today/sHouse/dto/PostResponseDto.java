@@ -41,8 +41,6 @@ public class PostResponseDto {
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
         //private Comment commentOne;
-        private String viewComment;
-        private String commentNickname;
     }
 
     @Builder

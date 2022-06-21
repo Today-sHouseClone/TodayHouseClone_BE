@@ -77,8 +77,13 @@ public class PostController {
 
     //게시글 상세조회
     @GetMapping("/api/post/{postId}")
-    public ResponseEntity<PostResponseDto> getDetailsPost(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return new ResponseEntity(postService.getDetailsPost(postId, userDetails), HttpStatus.OK);
+    public ResponseEntity<PostResponseDto> getDetailsPost(@PathVariable Long postId) {
+        try{
+            return new ResponseEntity(postService.getDetailsPost(postId), HttpStatus.OK);
+        }catch(IllegalArgumentException e){
+            return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+
     }
 
     //조회수 랭킹 Jsonignore 어노테이션을 활용해서 순수 post만 꺼내왔다
