@@ -53,8 +53,8 @@ public class PostService {
     public ResponseEntity<PostResponseDto> getAllPost() {
         List<Post> posts = postRepository.findAllByOrderByCreatedAtDesc();
         List<PostResponseDto.MainResponse> postResponse = new ArrayList<>();
-        List<Comment> viewComment = commentRepository.findTop1ByOrderByCreatedAtDesc();
         for (Post post : posts) {
+            List<Comment> viewComment = commentRepository.findTop1ByOrderByCreatedAtDesc();
             PostResponseDto.MainResponse mainDto = PostResponseDto.MainResponse.builder()
                     .id(post.getId())
                     .userNickname(post.getUser().getUserNickname())
