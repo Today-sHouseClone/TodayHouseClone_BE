@@ -1,6 +1,7 @@
 package com.hanghae.Today.sHouse.model;
 
-import com.hanghae.Today.sHouse.dto.HeartDto;
+import com.hanghae.Today.sHouse.dto.CommentHeartDto;
+import com.hanghae.Today.sHouse.dto.PostHeartDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -29,8 +30,17 @@ public class Heart {
     @JoinColumn(name = "POST_ID")
     private Post post;
 
-    public Heart(HeartDto heartDto) {
+    @ManyToOne
+    @JoinColumn(name = "COMMENT_ID")
+    private Comment comment;
+
+    public Heart(PostHeartDto heartDto) {
         this.user = heartDto.getUser();
         this.post = heartDto.getPost();
+    }
+
+    public Heart(CommentHeartDto commentHeartDto) {
+        this.user = commentHeartDto.getUser();
+        this.comment = commentHeartDto.getComment();
     }
 }

@@ -55,31 +55,6 @@ public class Post extends Timestamped {
     @Column
     private int viewCnt;
 
-    /*
-    * //////////////////1. LAZY를 사용해서 지연로딩 ->
-    *
-    **오류 내용**
-    * No serializer found for class org.hibernate.proxy.pojo.bytebuddy.ByteBuddyInterceptor and no properties discovered to create BeanSerializer
-    * 필요가 없으면 조회를 안해서 비어있는 객체를 serializer 하려고 해서 발생되는 문제.
-    *
-    1. application 파일에 spring.jackson.serialization.fail-on-empty-beans=false 설정해주기
-    2. 오류가 나는 엔티티의 LAZY 설정을 EAGER로 바꿔주기
-    3. 오류가 나는 컬럼에 @JsonIgnore를 설정해주기
-    4. @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    *
-    * JsonIgnore 단점은? 남용했을 때.
-    *
-    * ///////////////////2. limit
-    *
-    * 2-1)@Query("select p from Post p order by p.viewCnt desc")
-
-      2-2)@Query("select new com.hanghae.Today.sHouse.dto.PostResponseDto(p.id, p.size, p.type, p.style, p.area, p.imageUrl, p.content, p.createdAt, p.modifiedAt)" +
-            " from Post p order by p.viewCnt desc")
-
-      2-3)nativeQuery = true -> LIMIT 사용
-       
-      2-4)지금처럼
-    * */
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
     @JoinColumn(name="USER_ID")

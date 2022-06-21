@@ -17,15 +17,28 @@ public class HeartController {
     private final HeartService heartService;
 
     //좋아요 클릭
-    @PostMapping("/api/heart/{postId}")
-    public ResponseEntity<Boolean> IsHeart(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails){
+    @PostMapping("/api/postHeart/{postId}")
+    public ResponseEntity<Boolean> IsPostHeart(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails){
         try{
             Long userId = userDetails.getUser().getId();
-            return new ResponseEntity<>(heartService.clickToHeart(postId, userId), HttpStatus.OK);
+            return new ResponseEntity<>(heartService.clickToPostHeart(postId, userId), HttpStatus.OK);
         }
         catch(IllegalArgumentException e){
             return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
+
+    //좋아요 클릭
+    @PostMapping("/api/commentHeart/{commentId}")
+    public ResponseEntity<Boolean> IsCommentHeart(@PathVariable Long commentId, @AuthenticationPrincipal UserDetailsImpl userDetails){
+        try{
+            Long userId = userDetails.getUser().getId();
+            return new ResponseEntity<>(heartService.clickToCommentHeart(commentId, userId), HttpStatus.OK);
+        }
+        catch(IllegalArgumentException e){
+            return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
 
 }
