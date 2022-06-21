@@ -54,6 +54,12 @@ public class Post extends Timestamped {
     @Column
     private int viewCnt;
 
+    @Column
+    private boolean heartCheck;
+
+    @Column
+    private boolean bookmarkCheck;
+
     @ManyToOne(fetch = FetchType.LAZY)
     //@JsonIgnore
     @JoinColumn(name="USER_ID")

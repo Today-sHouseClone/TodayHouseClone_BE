@@ -44,12 +44,14 @@ public class HeartService {
             heart.getPost().setHeartCnt(likeCnt+1);
 
             heartRepository.save(heart);
+            post.setHeartCheck(true);
             toggleLike = true;
         }
         else{
             heart.getPost().setHeartCnt(likeCnt-1);
 
             heartRepository.deleteById(findHeart.getId());
+            post.setHeartCheck(false);
             toggleLike = false;
         }
         return toggleLike;
