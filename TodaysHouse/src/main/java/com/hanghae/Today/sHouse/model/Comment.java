@@ -31,7 +31,7 @@ public class Comment extends Timestamped{
 
     @JsonBackReference  // 순환참조 방지
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnore
+    //@JsonIgnore
     @JoinColumn(name ="POST_ID")
     private Post post;
 
