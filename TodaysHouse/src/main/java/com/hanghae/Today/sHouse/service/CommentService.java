@@ -59,10 +59,11 @@ public class CommentService {
             Long id = comment.getId();
             String getComment = comment.getComment();
             String userNickname = comment.getUser().getUserNickname();
+            boolean commentHeartCheck = comment.isCommentHeartCheck();
             LocalDateTime createdAt = comment.getCreatedAt();
             LocalDateTime modifiedAt = comment.getModifiedAt();
 
-            CommentResponseDto commentResponseDto = new CommentResponseDto(postId, id, getComment,userNickname, createdAt, modifiedAt);
+            CommentResponseDto commentResponseDto = new CommentResponseDto(postId, id, getComment, commentHeartCheck, userNickname, createdAt, modifiedAt);
 
             commentResponseDtoList.add(commentResponseDto);
         }

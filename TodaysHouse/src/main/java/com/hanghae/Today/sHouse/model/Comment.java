@@ -27,7 +27,7 @@ public class Comment extends Timestamped{
     private String comment;
 
     @Column
-    private int commentHeartCnt;
+    private boolean commentHeartCheck;
 
     @JsonBackReference  // 순환참조 방지
     @ManyToOne(fetch = FetchType.LAZY)
