@@ -52,6 +52,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .cors();
         http.authorizeRequests()
 
+
                 // api 요청 접근허용
                 .antMatchers("/user/**").permitAll()
                 .antMatchers("/api/post/ranking/**").permitAll()            //TOP3 조회
@@ -59,10 +60,25 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET,"/api/post/**").permitAll()     //상세페이지 조회
                 .antMatchers(HttpMethod.GET,"/api/comment/**").permitAll()  //댓글 조회
 
-                //.antMatchers("**").permitAll()
                 .antMatchers("/").permitAll()
                 .antMatchers("/images/**").permitAll()
                 .antMatchers("/css/**").permitAll()
+
+
+
+                /*
+                //원래 애들
+
+                // api 요청 접근허용
+                .antMatchers("/user/**").permitAll()
+                .antMatchers("/api/**").permitAll()
+                .antMatchers("**").permitAll()
+                .antMatchers("/").permitAll()
+                .antMatchers("/images/**").permitAll()
+                .antMatchers("/css/**").permitAll()
+
+                 */
+
 
                 // 그 외 모든 요청은 인증과정 필요
                 .anyRequest().authenticated()
