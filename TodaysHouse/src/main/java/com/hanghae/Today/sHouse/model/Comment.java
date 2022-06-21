@@ -26,6 +26,9 @@ public class Comment extends Timestamped{
     @Column(nullable = false)
     private String comment;
 
+    @Column
+    private int commentHeartCnt;
+
     @JsonBackReference  // 순환참조 방지
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
@@ -36,6 +39,7 @@ public class Comment extends Timestamped{
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @JoinColumn(name ="USER_ID")
     private User user;
+
 
     public Comment(User user, Post post, String getComment) {
         this.user = user;

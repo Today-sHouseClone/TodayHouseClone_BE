@@ -1,7 +1,6 @@
 package com.hanghae.Today.sHouse.model;
 
 import com.hanghae.Today.sHouse.dto.BookmarkDto;
-import com.hanghae.Today.sHouse.dto.HeartDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

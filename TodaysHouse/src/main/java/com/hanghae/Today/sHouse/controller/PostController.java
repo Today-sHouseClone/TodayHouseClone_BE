@@ -17,6 +17,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.slf4j.Logger;
 import java.util.List;
@@ -81,14 +82,16 @@ public class PostController {
     }
 
     //조회수 랭킹 Jsonignore 어노테이션을 활용해서 순수 post만 꺼내왔다
+    //transactional 어노테이션!!!
     @GetMapping("/api/post/ranking")
     public ResponseEntity<List<PostRankingDto>> getPostRanking(){
         Pageable pageable = PageRequest.of(0, 3, Sort.Direction.DESC, "viewCnt");
+
         List<Post> allByPostRanking = postRepository.findAllByPostRanking(pageable);
         List<PostRankingDto>postRankingDtoList = allByPostRanking.stream()
                 .map((p)-> new PostRankingDto(p.getId(), p.getImageUrl(),p.getUser().getUserNickname()))
                 .collect(Collectors.toList());
-        //return new ResponseEntity(postRepository.findAllByPostRanking(pageable), HttpStatus.OK);
+
         return new ResponseEntity<>(postRankingDtoList, HttpStatus.OK);
     }
 }
