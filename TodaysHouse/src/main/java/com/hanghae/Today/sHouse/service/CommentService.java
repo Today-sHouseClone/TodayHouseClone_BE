@@ -43,20 +43,20 @@ public class CommentService {
     }
 
     //댓글 조회
-    public List<CommentResponseDto> findComment(Long postId, String userNickname) {
+    public List<CommentResponseDto> findComment(Long postId) {
         Post findPost = findPost(postId);
 
         List<CommentResponseDto>commentResponseDtoList = new ArrayList<>();
         List<Comment> comments = findPost.getComments();
 
-        commentRequestList(postId, userNickname, commentResponseDtoList, comments);
+        commentRequestList(postId, commentResponseDtoList, comments);
         return commentResponseDtoList;
     }
 
     //댓글 수정
     @Transactional
     public void updateComment(Long commentId, CommentRequestDto requestDto, UserDetailsImpl userDetails) {
-        Comment comment = findComment(commentId);
+        Comment comment = findToComment(commentId);
 
         Long userId = comment.getUser().getId();
         Long currentId = userDetails.getUser().getId();
@@ -72,7 +72,7 @@ public class CommentService {
     //댓글 삭제
     @Transactional
     public void deleteComment(Long commentId, UserDetailsImpl userDetails) {
-        Comment comment = findComment(commentId);
+        Comment comment = findToComment(commentId);
 
         int currentCnt = comment.getPost().getCommentCnt();
         comment.getPost().setCommentCnt(currentCnt-1);
@@ -95,15 +95,17 @@ public class CommentService {
     }
 
     //댓글 불러와서 리스트에 저장
-    private void commentRequestList(Long postId, String userNickname, List<CommentResponseDto> commentResponseDtoList, List<Comment> comments) {
+    private void commentRequestList(Long postId, List<CommentResponseDto> commentResponseDtoList, List<Comment> comments) {
         for(Comment comment : comments){
             Long id = comment.getId();
             String getComment = comment.getComment();
-            int commentHeartCnt = comment.getCommentHeartCnt();
+
+            String userNickname = comment.getUser().getUserNickname();
+
             LocalDateTime createdAt = comment.getCreatedAt();
             LocalDateTime modifiedAt = comment.getModifiedAt();
 
-            CommentResponseDto commentResponseDto = new CommentResponseDto(postId, id, getComment,commentHeartCnt, userNickname, createdAt, modifiedAt);
+            CommentResponseDto commentResponseDto = new CommentResponseDto(postId, id, getComment,userNickname, createdAt, modifiedAt);
 
             commentResponseDtoList.add(commentResponseDto);
         }
@@ -119,7 +121,7 @@ public class CommentService {
     }
 
     //댓글 찾기
-    private Comment findComment(Long commentId) {
+    private Comment findToComment(Long commentId) {
         Comment returnComment = commentRepository.findById(commentId).orElseThrow(
                 () -> new NullPointerException("댓글이 없습니다.")
         );

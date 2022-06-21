@@ -54,7 +54,11 @@ public class PostService {
         List<Post> posts = postRepository.findAllByOrderByCreatedAtDesc();
         List<PostResponseDto.MainResponse> postResponse = new ArrayList<>();
         for (Post post : posts) {
+<<<<<<< HEAD
 //            Comment viewComment = commentRepository.findTopByPostIdOrderByCreatedAtDesc(post.getId());
+=======
+            //Comment viewComment = commentRepository.findTopByPostIdOrderByCreatedAtDesc(post.getId());
+>>>>>>> e1e7921c38df871bca4c4cc8f385ce408539c79f
             PostResponseDto.MainResponse mainDto = PostResponseDto.MainResponse.builder()
                     .id(post.getId())
                     .userNickname(post.getUser().getUserNickname())
@@ -66,7 +70,11 @@ public class PostService {
                     .commentCnt(post.getCommentCnt())
                     .createdAt(post.getCreatedAt())
                     .modifiedAt(post.getModifiedAt())
+<<<<<<< HEAD
 //                    .commentOne(viewComment)
+=======
+                    //.commentOne(viewComment)
+>>>>>>> e1e7921c38df871bca4c4cc8f385ce408539c79f
                     .build();
             postResponse.add(mainDto);
         }
@@ -119,9 +127,8 @@ public class PostService {
 
     //게시글 상세조회
     @Transactional
-    public ResponseEntity<PostResponseDto> getDetailsPost(Long postId, UserDetailsImpl userDetails) {
+    public PostResponseDto.DetailResponse getDetailsPost(Long postId) {
         Post post = checkPost(postId);
-        String userNickname = userDetails.getUser().getUserNickname();
 
         PostResponseDto.DetailResponse detailResponseDto = PostResponseDto.DetailResponse.builder()
                 .id(post.getId())
@@ -135,13 +142,13 @@ public class PostService {
                 .viewCnt(post.getViewCnt())
                 .imageUrl(post.getImageUrl())
                 .content(post.getContent())
-                .userNickname(userNickname)
+                .userNickname(post.getUser().getUserNickname())
                 .createdAt(post.getCreatedAt())
                 .modifiedAt(post.getModifiedAt())
                 .build();
 
         post.setViewCnt(post.getViewCnt() + 1);
-        return new ResponseEntity(detailResponseDto, HttpStatus.OK);
+        return detailResponseDto;
     }
 
 

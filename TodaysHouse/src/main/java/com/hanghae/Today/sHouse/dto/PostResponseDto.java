@@ -39,7 +39,11 @@ public class PostResponseDto {
 
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
+<<<<<<< HEAD
 //        private Comment commentOne;
+=======
+        //private Comment commentOne;
+>>>>>>> e1e7921c38df871bca4c4cc8f385ce408539c79f
     }
 
     @Builder
