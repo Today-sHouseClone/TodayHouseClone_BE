@@ -54,12 +54,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
                 // api 요청 접근허용
                 .antMatchers("/user/**").permitAll()
-                .antMatchers("/api/post/ranking/**").permitAll()            //TOP3 조회
-                .antMatchers("/api/posts/**").permitAll()                   //메인페이지 조회
-                .antMatchers(HttpMethod.GET,"/api/post/**").permitAll()     //상세페이지 조회
-                .antMatchers(HttpMethod.GET,"/api/comment/**").permitAll()  //댓글 조회
+//                .antMatchers("/api/post/ranking/**").permitAll()            //TOP3 조회
+//                .antMatchers("/api/posts/**").permitAll()                   //메인페이지 조회
+//                .antMatchers(HttpMethod.GET,"/api/post/**").permitAll()     //상세페이지 조회
+//                .antMatchers(HttpMethod.GET,"/api/comment/**").permitAll()  //댓글 조회
 
-                //.antMatchers("**").permitAll()
+                .antMatchers("**").permitAll()
                 .antMatchers("/").permitAll()
                 .antMatchers("/images/**").permitAll()
                 .antMatchers("/css/**").permitAll()

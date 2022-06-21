@@ -12,7 +12,7 @@ public class CommentResponseDto {
     private Long postId;
     private Long id;
     private String comment;
-    //private int commentHeartCnt;
+    private int commentHeartCnt;
     private String userNickname;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
