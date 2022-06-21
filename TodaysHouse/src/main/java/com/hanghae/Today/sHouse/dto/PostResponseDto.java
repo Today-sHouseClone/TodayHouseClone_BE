@@ -39,7 +39,7 @@ public class PostResponseDto {
 
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
-        List<Comment> commentOne;
+        private Comment commentOne;
     }
 
     @Builder

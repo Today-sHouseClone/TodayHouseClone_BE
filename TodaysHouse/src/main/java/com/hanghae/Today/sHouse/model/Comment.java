@@ -28,13 +28,12 @@ public class Comment extends Timestamped{
 
     @JsonBackReference  // 순환참조 방지
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnore
+    //@JsonIgnore
     @JoinColumn(name ="POST_ID")
     private Post post;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    @JsonIgnore
     @JoinColumn(name ="USER_ID")
     private User user;
 

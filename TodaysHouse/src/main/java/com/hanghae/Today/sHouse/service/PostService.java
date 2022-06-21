@@ -54,7 +54,7 @@ public class PostService {
         List<Post> posts = postRepository.findAllByOrderByCreatedAtDesc();
         List<PostResponseDto.MainResponse> postResponse = new ArrayList<>();
         for (Post post : posts) {
-            List<Comment> viewComment = commentRepository.findTop1ByOrderByCreatedAtDesc();
+            Comment viewComment = commentRepository.findTopByPostIdOrderByCreatedAtDesc(post.getId());
             PostResponseDto.MainResponse mainDto = PostResponseDto.MainResponse.builder()
                     .id(post.getId())
                     .userNickname(post.getUser().getUserNickname())
