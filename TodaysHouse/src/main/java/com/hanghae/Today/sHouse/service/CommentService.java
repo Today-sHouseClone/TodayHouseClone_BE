@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -67,10 +68,14 @@ public class CommentService {
         commentRepository.save(comment);    //  -> 삭제해도 될 듯?
     }
 
+
     //댓글 삭제
     @Transactional
     public void deleteComment(Long commentId, UserDetailsImpl userDetails) {
         Comment comment = findComment(commentId);
+
+        int currentCnt = comment.getPost().getCommentCnt();
+        comment.getPost().setCommentCnt(currentCnt-1);
 
         Long userId = comment.getUser().getId();
         Long currentId = userDetails.getUser().getId();
