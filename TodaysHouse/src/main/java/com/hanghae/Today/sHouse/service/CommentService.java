@@ -53,6 +53,21 @@ public class CommentService {
         return commentResponseDtoList;
     }
 
+    //댓글 불러와서 리스트에 저장
+    private void commentRequestList(Long postId, List<CommentResponseDto> commentResponseDtoList, List<Comment> comments) {
+        for(Comment comment : comments){
+            Long id = comment.getId();
+            String getComment = comment.getComment();
+            String userNickname = comment.getUser().getUserNickname();
+            LocalDateTime createdAt = comment.getCreatedAt();
+            LocalDateTime modifiedAt = comment.getModifiedAt();
+
+            CommentResponseDto commentResponseDto = new CommentResponseDto(postId, id, getComment,userNickname, createdAt, modifiedAt);
+
+            commentResponseDtoList.add(commentResponseDto);
+        }
+    }
+
     //댓글 수정
     @Transactional
     public void updateComment(Long commentId, CommentRequestDto requestDto, UserDetailsImpl userDetails) {
@@ -94,20 +109,6 @@ public class CommentService {
         }
     }
 
-    //댓글 불러와서 리스트에 저장
-    private void commentRequestList(Long postId, List<CommentResponseDto> commentResponseDtoList, List<Comment> comments) {
-        for(Comment comment : comments){
-            Long id = comment.getId();
-            String getComment = comment.getComment();
-            String userNickname = comment.getUser().getUserNickname();
-            LocalDateTime createdAt = comment.getCreatedAt();
-            LocalDateTime modifiedAt = comment.getModifiedAt();
-
-            CommentResponseDto commentResponseDto = new CommentResponseDto(postId, id, getComment,userNickname, createdAt, modifiedAt);
-
-            commentResponseDtoList.add(commentResponseDto);
-        }
-    }
 
 
     //게시글 찾기
