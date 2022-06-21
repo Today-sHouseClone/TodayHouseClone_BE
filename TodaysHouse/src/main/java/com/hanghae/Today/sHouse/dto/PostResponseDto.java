@@ -2,6 +2,7 @@ package com.hanghae.Today.sHouse.dto;
 
 import com.hanghae.Today.sHouse.model.Comment;
 import com.hanghae.Today.sHouse.model.Post;
+import com.hanghae.Today.sHouse.model.User;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -39,7 +40,9 @@ public class PostResponseDto {
 
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
-//        private Comment commentOne;
+        //private Comment commentOne;
+        private String viewComment;
+        private String commentNickname;
     }
 
     @Builder
