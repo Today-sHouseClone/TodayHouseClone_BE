@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -46,7 +47,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
-        http.headers().frameOptions().disable().and().cors();
         http.headers().frameOptions().disable()
                 .and()
                 .cors();
@@ -54,10 +54,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
                 // api 요청 접근허용
                 .antMatchers("/user/**").permitAll()
-                .antMatchers("/api/**").permitAll()
-                .antMatchers("**").permitAll()
+                .antMatchers("/api/post/ranking/**").permitAll()            //TOP3 조회
+                .antMatchers("/api/posts/**").permitAll()                   //메인페이지 조회
+                .antMatchers(HttpMethod.GET,"/api/post/**").permitAll()     //상세페이지 조회
+                .antMatchers(HttpMethod.GET,"/api/comment/**").permitAll()  //댓글 조회
+
+                //.antMatchers("**").permitAll()
                 .antMatchers("/").permitAll()
-//                .antMatchers("/api/**").permitAll()
+                .antMatchers("/images/**").permitAll()
+                .antMatchers("/css/**").permitAll()
 
                 // 그 외 모든 요청은 인증과정 필요
                 .anyRequest().authenticated()
