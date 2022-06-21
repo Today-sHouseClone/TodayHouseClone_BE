@@ -37,9 +37,9 @@ public class PostResponseDto {
         private int bookmarkCnt;
         private int commentCnt;
 
+        private List<Comment> commentOne;
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
-        List<Comment> commentOne;
     }
 
     @Builder

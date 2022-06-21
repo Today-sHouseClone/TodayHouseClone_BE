@@ -5,6 +5,7 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hanghae.Today.sHouse.dto.CommentResponseDto;
 import com.hanghae.Today.sHouse.dto.MultipartFileDto;
 import com.hanghae.Today.sHouse.dto.PostRequestDto;
@@ -52,6 +53,7 @@ public class PostService {
     public ResponseEntity<PostResponseDto> getAllPost() {
         List<Post> posts = postRepository.findAllByOrderByCreatedAtDesc();
         List<PostResponseDto.MainResponse> postResponse = new ArrayList<>();
+        List<Comment> viewComment = commentRepository.findTop1ByOrderByCreatedAtDesc();
         for (Post post : posts) {
             PostResponseDto.MainResponse mainDto = PostResponseDto.MainResponse.builder()
                     .id(post.getId())
@@ -64,7 +66,7 @@ public class PostService {
                     .commentCnt(post.getCommentCnt())
                     .createdAt(post.getCreatedAt())
                     .modifiedAt(post.getModifiedAt())
-                    .commentOne(commentRepository.findTop1ByOrderByCreatedAtDesc())
+                    .commentOne(viewComment)
                     .build();
             postResponse.add(mainDto);
         }

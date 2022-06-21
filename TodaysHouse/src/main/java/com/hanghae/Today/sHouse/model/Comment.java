@@ -34,6 +34,7 @@ public class Comment extends Timestamped{
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @JsonIgnore
     @JoinColumn(name ="USER_ID")
     private User user;
 

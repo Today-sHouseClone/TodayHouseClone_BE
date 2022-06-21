@@ -86,6 +86,7 @@ public class Post extends Timestamped {
 
     //@JsonManagedReference // 직렬화 허용 어노테이션
     @JsonIgnore
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @OneToMany(mappedBy = "post", orphanRemoval = true) // orpahRemanal = true 부모 삭제시 자식도 삭제
     private List<Comment> comments;
 
