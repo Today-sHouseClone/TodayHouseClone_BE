@@ -18,8 +18,6 @@ import com.hanghae.Today.sHouse.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -35,6 +33,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+
 @RequiredArgsConstructor
 @Service
 @Transactional(readOnly = true)
@@ -49,10 +48,10 @@ public class PostService {
     private String bucket;
 
     //전체 게시글 조회
+    @Transactional
     public ResponseEntity<PostResponseDto> getAllPost() {
         List<Post> posts = postRepository.findAllByOrderByCreatedAtDesc();
         List<PostResponseDto.MainResponse> postResponse = new ArrayList<>();
-//        List<CommentResponseDto> commentList = commentRepository;
         for (Post post : posts) {
             PostResponseDto.MainResponse mainDto = PostResponseDto.MainResponse.builder()
                     .id(post.getId())
@@ -65,6 +64,7 @@ public class PostService {
                     .commentCnt(post.getCommentCnt())
                     .createdAt(post.getCreatedAt())
                     .modifiedAt(post.getModifiedAt())
+                    .commentOne(commentRepository.findTop1ByOrderByCreatedAtDesc())
                     .build();
             postResponse.add(mainDto);
         }
