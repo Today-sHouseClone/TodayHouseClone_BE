@@ -19,7 +19,7 @@ public class PostResponseDto {
     private String style;
     private String area;
 
-    private MultipartFile imageUrl;
+    private String imageUrl;
     private String content;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
@@ -62,4 +62,5 @@ public class PostResponseDto {
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
     }
+
 }

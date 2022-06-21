@@ -80,7 +80,7 @@ public class Post extends Timestamped {
       2-4)지금처럼
     * */
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnore
+    //@JsonIgnore
     @JoinColumn(name="USER_ID")
     private User user;
 
