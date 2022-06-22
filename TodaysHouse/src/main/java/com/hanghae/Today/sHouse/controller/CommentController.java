@@ -44,22 +44,22 @@ public class CommentController {
     }
 
     //댓글 조회
-//    @GetMapping("/api/comment/{postId}")
-//    public ResponseEntity<List<CommentResponseDto>> findComment(@PathVariable Long postId){
-//        try{
-//            return new ResponseEntity<>(commentService.findComment(postId), HttpStatus.OK);
-//        }catch(IllegalArgumentException e){
-//            return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
-//        }
-//    }
+    @GetMapping("/api/comment/{postId}")
+    public ResponseEntity<List<CommentResponseDto>> findComment(@PathVariable Long postId){
+        try{
+            return new ResponseEntity<>(commentService.findComment(postId), HttpStatus.OK);
+        }catch(IllegalArgumentException e){
+            return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
 
     //페이징 댓글 조회
-    @GetMapping("/api/comment/{postId}")
-    public Page<CommentResponseDto> getAllComment(
-            @PageableDefault (size = 5, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
-        Page<Comment> commentPage = commentService.findComment(pageable);
-        return commentPage.map(CommentResponseDto::from);
-    }
+//    @GetMapping("/api/comment/{postId}")
+//    public Page<CommentResponseDto> getAllComment(@PathVariable Long postId,
+//            @PageableDefault (size = 5, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
+//        Page<Comment> commentPage = commentService.findComment(postId, pageable);
+//        return commentPage.map(CommentResponseDto::from);
+//    }
 
     //댓글 수정
     @PutMapping("/api/comment/{commentId}")

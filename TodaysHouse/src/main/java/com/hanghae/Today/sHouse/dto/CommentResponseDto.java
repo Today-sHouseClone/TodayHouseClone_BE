@@ -21,6 +21,7 @@ public class CommentResponseDto {
 
     public static CommentResponseDto from(Comment comment) {
         return CommentResponseDto.builder()
+                .postId(comment.getPost().getId())
                 .id(comment.getId())
                 .comment(comment.getComment())
                 .commentHeartCheck(comment.getCommentHeartCheck())
