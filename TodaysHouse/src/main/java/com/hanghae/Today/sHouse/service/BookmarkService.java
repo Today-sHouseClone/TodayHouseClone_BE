@@ -39,14 +39,14 @@ public class BookmarkService {
             bookmark.getPost().setBookmarkCnt(BookmarkCnt+1);
 
             bookmarkRepository.save(bookmark);
-//            post.setBookmarkCheck(true);
+            post.setBookmarkCheck(true);
             toggleBookmark = true;
         }
         else{
             bookmark.getPost().setBookmarkCnt(BookmarkCnt-1);
 
             bookmarkRepository.deleteById(findBookmark.getId());
-//            post.setBookmarkCheck(false);
+            post.setBookmarkCheck(false);
             toggleBookmark = false;
         }
         return toggleBookmark;
