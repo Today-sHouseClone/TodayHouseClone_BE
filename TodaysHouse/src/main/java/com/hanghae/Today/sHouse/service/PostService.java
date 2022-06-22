@@ -52,36 +52,11 @@ public class PostService {
 
     //전체 게시글 조회
     @Transactional
-    public ResponseEntity<PostResponseDto> getAllPost() {
-        List<Post> posts = postRepository.findAllByOrderByCreatedAtDesc();
-        List<PostResponseDto.MainResponse> postResponse = new ArrayList<>();
-        for (Post post : posts) {
-            Comment viewComment = commentRepository.findTopByPostIdOrderByCreatedAtDesc(post.getId());
-            PostResponseDto.MainResponse mainDto = PostResponseDto.MainResponse.builder()
-                    .id(post.getId())
-                    .userNickname(post.getUser().getUserNickname())
-                    .imageUrl(post.getImageUrl())
-                    .viewCnt(post.getViewCnt())
-                    .content(post.getContent())
-                    .heartCnt(post.getHeartCnt())
-                    .bookmarkCnt(post.getBookmarkCnt())
-                    .commentCnt(post.getCommentCnt())
-                    .heartCheck(post.getHeartCheck())
-                    .bookmarkCheck(post.getBookmarkCheck())
-                    .createdAt(post.getCreatedAt())
-                    .modifiedAt(post.getModifiedAt())
-                    .commentOne(viewComment)
-                    .build();
-            postResponse.add(mainDto);
-        }
-        return new ResponseEntity(postResponse, HttpStatus.OK);
-    }
-
-//    public Page<Post> getPosts(Pageable pageable) {
+//    public ResponseEntity<PostResponseDto> getAllPost() {
 //        List<Post> posts = postRepository.findAllByOrderByCreatedAtDesc();
 //        List<PostResponseDto.MainResponse> postResponse = new ArrayList<>();
 //        for (Post post : posts) {
-//            Comment viewComment = commentRepository.findTopByPostIdOrderByCreatedAtDesc(post.getId());
+//            Comment viewComment = commentRepository.findTop1ByPostIdOrderByCreatedAtDesc(post.getId());
 //            PostResponseDto.MainResponse mainDto = PostResponseDto.MainResponse.builder()
 //                    .id(post.getId())
 //                    .userNickname(post.getUser().getUserNickname())
@@ -99,8 +74,33 @@ public class PostService {
 //                    .build();
 //            postResponse.add(mainDto);
 //        }
-//        return postRepository.findAll(pageable);
+//        return new ResponseEntity(postResponse, HttpStatus.OK);
 //    }
+
+    public Page<Post> getPosts(Pageable pageable) {
+        List<Post> posts = postRepository.findAllByOrderByCreatedAtDesc();
+        List<PostResponseDto.MainResponse> postResponse = new ArrayList<>();
+        for (Post post : posts) {
+            Comment viewComment = commentRepository.findTop1ByPostIdOrderByCreatedAtDesc(post.getId());
+            PostResponseDto.MainResponse mainDto = PostResponseDto.MainResponse.builder()
+                    .id(post.getId())
+                    .userNickname(post.getUser().getUserNickname())
+                    .imageUrl(post.getImageUrl())
+                    .viewCnt(post.getViewCnt())
+                    .content(post.getContent())
+                    .heartCnt(post.getHeartCnt())
+                    .bookmarkCnt(post.getBookmarkCnt())
+                    .commentCnt(post.getCommentCnt())
+                    .heartCheck(post.getHeartCheck())
+                    .bookmarkCheck(post.getBookmarkCheck())
+                    .createdAt(post.getCreatedAt())
+                    .modifiedAt(post.getModifiedAt())
+                    .commentOne(viewComment)
+                    .build();
+            postResponse.add(mainDto);
+        }
+        return postRepository.findAll(pageable);
+    }
 
     //게시글 등록
     @Transactional
