@@ -70,7 +70,7 @@ public class CommentService {
             Boolean commentHeartCheck = comment.getCommentHeartCheck();
             LocalDateTime createdAt = comment.getCreatedAt();
             LocalDateTime modifiedAt = comment.getModifiedAt();
-
+            
             CommentResponseDto commentResponseDto = new CommentResponseDto(postId, id, getComment, commentHeartCheck, userNickname, createdAt, modifiedAt);
 
             commentResponseDtoList.add(commentResponseDto);

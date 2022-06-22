@@ -45,7 +45,8 @@ public class CommentController {
 
     //댓글 조회
     @GetMapping("/api/comment/{postId}")
-    public ResponseEntity<List<CommentResponseDto>> findComment(@PathVariable Long postId){
+    public ResponseEntity<List<CommentResponseDto>> findComment(
+            @PathVariable Long postId/*, @PageableDefault(size = 5, sort = "createdDate", direction = Sort.Direction.DESC) Pageable pageable*/){
         try{
             return new ResponseEntity<>(commentService.findComment(postId), HttpStatus.OK);
         }catch(IllegalArgumentException e){
