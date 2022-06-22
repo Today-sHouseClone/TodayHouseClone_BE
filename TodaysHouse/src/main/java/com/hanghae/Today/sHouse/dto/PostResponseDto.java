@@ -58,7 +58,7 @@ public class PostResponseDto {
                     .bookmarkCheck(post.getBookmarkCheck())
                     .createdAt(post.getCreatedAt())
                     .modifiedAt(post.getModifiedAt())
-                    //.commentOne(post.)
+                    //.commentOne()
                     .build();
         }
     }

@@ -47,20 +47,20 @@ public class CommentService {
     }
 
     //댓글 조회
-    public List<CommentResponseDto> findComment(Long postId) {
-        Post findPost = findPost(postId);
-
-        List<CommentResponseDto>commentResponseDtoList = new ArrayList<>();
-        List<Comment> comments = findPost.getComments();
-
-        commentRequestList(postId, commentResponseDtoList, comments);
-        return commentResponseDtoList;
-    }
+//    public List<CommentResponseDto> findComment(Long postId) {
+//        Post findPost = findPost(postId);
+//
+//        List<CommentResponseDto>commentResponseDtoList = new ArrayList<>();
+//        List<Comment> comments = findPost.getComments();
+//
+//        commentRequestList(postId, commentResponseDtoList, comments);
+//        return commentResponseDtoList;
+//    }
 
     //댓글 페이징
-//    public Page<Comment> findComment(Long postId, Pageable pageable) {
-//        return commentRepository.findAllByPostId(postId, pageable);
-//    }
+    public Page<Comment> findComment(Long postId, Pageable pageable) {
+        return commentRepository.findAllByPostId(postId, pageable);
+    }
 
     //댓글 불러와서 리스트에 저장
     private void commentRequestList(Long postId, List<CommentResponseDto> commentResponseDtoList, List<Comment> comments) {
