@@ -120,8 +120,9 @@ public class PostService {
 
         idSameCheck(userId, currentId);
 
+        String getImage = post.getImageUrl();
         //Url로 변환
-        PostRequestDto postRequestDto = getPostRequestDto(requestDto);
+        PostRequestDto postRequestDto = getPetchRequestDto(requestDto, getImage);
         post.update(user, postRequestDto);  //변경감지로 쓰기지연 저장소에 있던 친구들이 DB로 들어간다.(commit 시점에서)
     }
 
@@ -185,6 +186,26 @@ public class PostService {
     }
 
     //MultipartFileDto에서 PostRequestDto로 변환해서 전달, s3 접근 후 Multipart -> url+string
+    private PostRequestDto getPetchRequestDto(MultipartFileDto requestDto, String getImageUrl) {
+        String size = requestDto.getSize();
+        String type = requestDto.getType();
+        String style = requestDto.getStyle();
+        String area = requestDto.getArea();
+        MultipartFile imageUrl = requestDto.getImageUrl();
+        String content = requestDto.getContent();
+        String str_ImgUrl;
+
+        if(imageUrl.isEmpty()){
+            str_ImgUrl = getImageUrl;
+            return new PostRequestDto(size, type, style, area, str_ImgUrl, content);
+        }else {
+            str_ImgUrl = getImgUrl(imageUrl);
+            return new PostRequestDto(size, type, style, area, str_ImgUrl, content);
+        }
+    }
+
+
+    //MultipartFileDto에서 PostRequestDto로 변환해서 전달, s3 접근 후 Multipart -> url+string
     private PostRequestDto getPostRequestDto(MultipartFileDto requestDto) {
         String size = requestDto.getSize();
         String type = requestDto.getType();
@@ -194,14 +215,9 @@ public class PostService {
         String content = requestDto.getContent();
 
         String str_ImgUrl;
-
-        if(imageUrl == null)
-            str_ImgUrl="";
-        else
-            str_ImgUrl = getImgUrl(imageUrl);
-
-        //s3 관련
+        str_ImgUrl = getImgUrl(imageUrl);
         return new PostRequestDto(size, type, style, area, str_ImgUrl, content);
+
     }
     ////////////////////////////////////////////------------S3관련---------------//////////////////////////////////////////////////////
     private String getImgUrl(MultipartFile imageUrl) {
