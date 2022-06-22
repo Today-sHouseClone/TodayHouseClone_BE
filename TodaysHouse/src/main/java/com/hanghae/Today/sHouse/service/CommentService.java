@@ -59,7 +59,7 @@ public class CommentService {
             Long id = comment.getId();
             String getComment = comment.getComment();
             String userNickname = comment.getUser().getUserNickname();
-            boolean commentHeartCheck = comment.isCommentHeartCheck();
+            Boolean commentHeartCheck = comment.getCommentHeartCheck();
             LocalDateTime createdAt = comment.getCreatedAt();
             LocalDateTime modifiedAt = comment.getModifiedAt();
 

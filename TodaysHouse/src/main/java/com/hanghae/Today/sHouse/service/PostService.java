@@ -63,8 +63,8 @@ public class PostService {
                     .heartCnt(post.getHeartCnt())
                     .bookmarkCnt(post.getBookmarkCnt())
                     .commentCnt(post.getCommentCnt())
-                    .heartCheck(post.isHeartCheck())
-                    .bookmarkCheck(post.isBookmarkCheck())
+                    .heartCheck(post.getHeartCheck())
+                    .bookmarkCheck(post.getBookmarkCheck())
                     .createdAt(post.getCreatedAt())
                     .modifiedAt(post.getModifiedAt())
                     .build();

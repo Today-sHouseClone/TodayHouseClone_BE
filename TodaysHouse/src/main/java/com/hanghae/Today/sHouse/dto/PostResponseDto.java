@@ -36,8 +36,8 @@ public class PostResponseDto {
         private int heartCnt;
         private int bookmarkCnt;
         private int commentCnt;
-        private boolean heartCheck;
-        private boolean bookmarkCheck;
+        private Boolean heartCheck;
+        private Boolean bookmarkCheck;
 
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
