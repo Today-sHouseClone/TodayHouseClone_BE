@@ -2,13 +2,17 @@ package com.hanghae.Today.sHouse.controller;
 
 import com.hanghae.Today.sHouse.dto.CommentRequestDto;
 import com.hanghae.Today.sHouse.dto.CommentResponseDto;
+import com.hanghae.Today.sHouse.model.Comment;
 import com.hanghae.Today.sHouse.repository.CommentRepository;
 import com.hanghae.Today.sHouse.repository.PostRepository;
 import com.hanghae.Today.sHouse.security.UserDetailsImpl;
 import com.hanghae.Today.sHouse.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -47,6 +51,13 @@ public class CommentController {
         }catch(IllegalArgumentException e){
             return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @GetMapping
+    public Page<CommentResponseDto> getAllBookReviews(
+            @PageableDefault (size = 5, sort = "createdDate", direction = Sort.Direction.DESC) Pageable pageable) {
+        Page<Comment> bookReviewPage = commentService.getComments(pageable);
+        return bookReviewPage.map(CommentResponseDto);
     }
 
     //댓글 수정
