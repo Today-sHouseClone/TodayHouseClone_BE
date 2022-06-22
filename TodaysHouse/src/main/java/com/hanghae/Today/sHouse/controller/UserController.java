@@ -72,18 +72,18 @@ public class UserController {
         return new ResponseEntity<>("축하해요! 닉네임을 사용하실 수 있습니다!", HttpStatus.OK);
     }
 
-//    //마이페이지 사진 노출
-//    @GetMapping("/api/post/mypage/picture")
-//    public ResponseEntity<List<MypagePictureDto>> getPostRanking(@AuthenticationPrincipal UserDetailsImpl userDetails){
-//        Long userId = userDetails.getUser().getId();
-//
-//        Pageable pageable = PageRequest.of(0, 4, Sort.Direction.DESC, "createdAt");
-//
-//        List<Post> byMypagePicture = postRepository.findByMypagePicture(pageable);
-//        List<MypagePictureDto>mypagePictureDtoList = byMypagePicture.stream()
-//                .map((p)-> new MypagePictureDto(p.getImageUrl()))
-//                .collect(Collectors.toList());
-//
-//        return new ResponseEntity<>(mypagePictureDtoList, HttpStatus.OK);
-//    }
+    //마이페이지 사진 노출
+    @GetMapping("/api/post/mypage/picture")
+    public ResponseEntity<List<MypagePictureDto>> getPostRanking(@AuthenticationPrincipal UserDetailsImpl userDetails){
+        Long userId = userDetails.getUser().getId();
+
+        Pageable pageable = PageRequest.of(0, 4, Sort.Direction.DESC, "createdAt");
+
+        List<Post> byMypagePicture = postRepository.findByMypagePicture(pageable, userId);
+        List<MypagePictureDto>mypagePictureDtoList = byMypagePicture.stream()
+                .map((p)-> new MypagePictureDto(p.getImageUrl()))
+                .collect(Collectors.toList());
+
+        return new ResponseEntity<>(mypagePictureDtoList, HttpStatus.OK);
+    }
 }
