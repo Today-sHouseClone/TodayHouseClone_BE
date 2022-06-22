@@ -101,5 +101,6 @@ public class UserController {
     }
 
     //마이페이지 미니정보3종세트
-
+//    @GetMapping("/api/post/mypage/information")
+//    public
 }
