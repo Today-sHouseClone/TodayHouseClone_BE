@@ -20,6 +20,11 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     @Query("select p from Post p")
     List<Post> findAllByPostRanking(Pageable pageable);
 
+    //마이페이지 사진4장
     @Query("select p from Post p join p.user u where u.id = :userId")
     List<Post> findByMypagePicture(Pageable pageable, @Param("userId") Long userId);
+
+    //마이페이지 게시글 보기
+    @Query("select p from Post p join p.user u where u.id = :userId order by p.createdAt desc ")
+    List<Post> findByMypagePosting(@Param("userId") Long userId);
 }
