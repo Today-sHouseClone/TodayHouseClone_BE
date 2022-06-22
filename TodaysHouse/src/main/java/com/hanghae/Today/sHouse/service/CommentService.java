@@ -57,9 +57,9 @@ public class CommentService {
         return commentResponseDtoList;
     }
 
-    public Page<Comment> getComments(Pageable pageable) {
-        return commentRepository.findAll(pageable);
-    }
+//    public Page<Comment> getComments(Pageable pageable) {
+//        return commentRepository.findAll(pageable);
+//    }
 
     //댓글 불러와서 리스트에 저장
     private void commentRequestList(Long postId, List<CommentResponseDto> commentResponseDtoList, List<Comment> comments) {
