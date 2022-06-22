@@ -86,7 +86,7 @@ public class PostController {
 
     }
 
-    //조회수 랭킹 Jsonignore 어노테이션을 활용해서 순수 post만 꺼내왔다
+    //조회수 랭킹 Jsonignore 어노테이션을 활용해서 순수 post만 꺼내왔다는 패스
     //transactional 어노테이션!!!
     @GetMapping("/api/post/ranking")
     public ResponseEntity<List<PostRankingDto>> getPostRanking(){

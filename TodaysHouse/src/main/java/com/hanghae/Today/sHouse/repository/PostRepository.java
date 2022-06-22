@@ -13,10 +13,12 @@ import java.util.List;
 public interface PostRepository extends JpaRepository<Post, Long> {
     List<Post> findAllByOrderByCreatedAtDesc();
     Page<Post> findAll(Pageable pageable);
-    List<Post> findAllByOrderByViewCntDesc();
 
-
+    //List<Post> findAllByOrderByViewCntDesc();
     //public List<?> findTop5ByOrderByviewCntDesc();
     @Query("select p from Post p")
     List<Post> findAllByPostRanking(Pageable pageable);
+
+//    @Query("select p from Post p join p.user u where ")
+//    List<Post> findByMypagePicture(Pageable pageable);
 }

@@ -1,17 +1,28 @@
 package com.hanghae.Today.sHouse.controller;
 import com.hanghae.Today.sHouse.dto.LoginRequestDto;
+import com.hanghae.Today.sHouse.dto.MypagePictureDto;
+import com.hanghae.Today.sHouse.dto.PostRankingDto;
 import com.hanghae.Today.sHouse.dto.SignupRequestDto;
+import com.hanghae.Today.sHouse.model.Post;
 import com.hanghae.Today.sHouse.model.User;
+import com.hanghae.Today.sHouse.repository.PostRepository;
 import com.hanghae.Today.sHouse.repository.UserRepository;
+import com.hanghae.Today.sHouse.security.UserDetailsImpl;
 import com.hanghae.Today.sHouse.security.jwt.JwtTokenProvider;
 import com.hanghae.Today.sHouse.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @RequiredArgsConstructor
@@ -21,6 +32,7 @@ public class UserController {
     private final UserService userService;
     private final UserRepository userRepository;
     private final JwtTokenProvider jwtTokenProvider;
+    private final PostRepository postRepository;
 
     //회원가입
     @PostMapping("/user/signup")
@@ -59,4 +71,19 @@ public class UserController {
         }
         return new ResponseEntity<>("축하해요! 닉네임을 사용하실 수 있습니다!", HttpStatus.OK);
     }
+
+//    //마이페이지 사진 노출
+//    @GetMapping("/api/post/mypage/picture")
+//    public ResponseEntity<List<MypagePictureDto>> getPostRanking(@AuthenticationPrincipal UserDetailsImpl userDetails){
+//        Long userId = userDetails.getUser().getId();
+//
+//        Pageable pageable = PageRequest.of(0, 4, Sort.Direction.DESC, "createdAt");
+//
+//        List<Post> byMypagePicture = postRepository.findByMypagePicture(pageable);
+//        List<MypagePictureDto>mypagePictureDtoList = byMypagePicture.stream()
+//                .map((p)-> new MypagePictureDto(p.getImageUrl()))
+//                .collect(Collectors.toList());
+//
+//        return new ResponseEntity<>(mypagePictureDtoList, HttpStatus.OK);
+//    }
 }

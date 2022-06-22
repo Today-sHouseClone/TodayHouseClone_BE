@@ -18,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -30,16 +31,17 @@ public class CommentController {
     private final CommentRepository commentRepository;
 
     private final PostRepository postRepository;
+
     //댓글 등록
     @PostMapping("/api/comment/{postId}")
-    public ResponseEntity<String>addComment(@PathVariable Long postId,
+    public ResponseEntity<LocalDateTime>addComment(@PathVariable Long postId,
                                             @AuthenticationPrincipal UserDetailsImpl userDetails,
                                             @RequestBody CommentRequestDto requestDto){
         try{
-            commentService.addComment(postId, userDetails, requestDto);
-            return new ResponseEntity<>("댓글 작성 완료하였습니다.", HttpStatus.CREATED);
+            LocalDateTime localDateTime = commentService.addComment(postId, userDetails, requestDto);
+            return new ResponseEntity<>(localDateTime , HttpStatus.CREATED);
         }catch (IllegalArgumentException e){
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
