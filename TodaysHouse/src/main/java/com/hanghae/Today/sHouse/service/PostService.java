@@ -97,6 +97,11 @@ public class PostService {
 
         idSameCheck(userId, currentId);
 
+//        String name = requestDto.getContent().getClass().getName();
+//        String url = requestDto.getImageUrl().getClass().getName();
+
+
+
         //Url로 변환
         PostRequestDto postRequestDto = getPostRequestDto(requestDto);
         post.update(user, postRequestDto);  //변경감지로 쓰기지연 저장소에 있던 친구들이 DB로 들어간다.(commit 시점에서)
