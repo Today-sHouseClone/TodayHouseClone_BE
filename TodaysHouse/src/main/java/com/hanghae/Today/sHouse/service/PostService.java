@@ -178,11 +178,11 @@ public class PostService {
 
         String str_ImgUrl;
 
-        if(imageUrl == null){
-            str_ImgUrl=null;
-        }else{
+        if(imageUrl == null)
+            str_ImgUrl="";
+        else
             str_ImgUrl = getImgUrl(imageUrl);
-        }
+
         //s3 관련
         return new PostRequestDto(size, type, style, area, str_ImgUrl, content);
     }

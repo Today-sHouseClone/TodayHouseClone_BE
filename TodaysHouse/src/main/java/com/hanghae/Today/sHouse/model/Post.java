@@ -34,7 +34,7 @@ public class Post extends Timestamped {
     @Column
     private String style;
 
-    @Column(nullable = false)
+    @Column
     private String area;
 
     @Column
