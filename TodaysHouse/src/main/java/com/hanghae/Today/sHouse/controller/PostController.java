@@ -35,17 +35,17 @@ public class PostController {
     private final Logger logger = LoggerFactory.getLogger("LoggerController 의 로그");
 
     //메인페이지 조회
-    @GetMapping("/api/posts")
-    public ResponseEntity<PostResponseDto> getAllPost() {
-        return postService.getAllPost();
-    }
-
 //    @GetMapping("/api/posts")
-//    public Page<PostResponseDto.MainResponse> getAllPost(
-//            @PageableDefault(size = 5, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
-//        Page<Post> postPage = postService.getPosts(pageable);
-//        return postPage.map(PostResponseDto.MainResponse::from);
+//    public ResponseEntity<PostResponseDto> getAllPost() {
+//        return postService.getAllPost();
 //    }
+
+    @GetMapping("/api/posts")
+    public Page<PostResponseDto.MainResponse> getAllPost(
+            @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
+        Page<Post> postPage = postService.getPosts(pageable);
+        return postPage.map(PostResponseDto.MainResponse::from);
+    }
 
     //게시글 등록
     @PostMapping("/api/post")
