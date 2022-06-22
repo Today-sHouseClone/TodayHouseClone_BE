@@ -31,6 +31,17 @@ public class UserController {
     private final JwtTokenProvider jwtTokenProvider;
     private final PostRepository postRepository;
 
+    //닉네임 뿌려주기
+    @GetMapping("/user/nickname")
+    public ResponseEntity<String> getUserNickname(@AuthenticationPrincipal UserDetailsImpl userDetails){
+        try{
+            return new ResponseEntity<>(userDetails.getUser().getUserNickname(), HttpStatus.OK);
+        }catch(IllegalArgumentException e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+
+    }
+
     //회원가입
     @PostMapping("/user/signup")
     public ResponseEntity<String> registerUser(@RequestBody SignupRequestDto requestDto) {
