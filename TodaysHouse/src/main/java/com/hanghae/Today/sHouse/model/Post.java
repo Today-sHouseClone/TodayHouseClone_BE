@@ -56,10 +56,10 @@ public class Post extends Timestamped {
     private int viewCnt;
 
     @Column
-    private boolean heartCheck;
+    private Boolean heartCheck;
 
     @Column
-    private boolean bookmarkCheck;
+    private Boolean bookmarkCheck;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
