@@ -35,7 +35,7 @@ public class CommentController {
 
     //댓글 등록
     @PostMapping("/api/comment/{postId}")
-    public ResponseEntity<CommentResponseDto.CommentIdAndTimeDto>addComment(@PathVariable Long postId,
+    public ResponseEntity<CommentResponseDto>addComment(@PathVariable Long postId,
                                             @AuthenticationPrincipal UserDetailsImpl userDetails,
                                             @RequestBody CommentRequestDto requestDto){
         try{
