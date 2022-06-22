@@ -1,12 +1,11 @@
 package com.hanghae.Today.sHouse.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.hanghae.Today.sHouse.dto.PostRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import java.util.List;
@@ -37,8 +36,9 @@ public class Post extends Timestamped {
     @Column(nullable = false)
     private String area;
 
-    @Column(nullable = false)
+    @Column
     private String imageUrl;
+
 
     @Column
     private String content;

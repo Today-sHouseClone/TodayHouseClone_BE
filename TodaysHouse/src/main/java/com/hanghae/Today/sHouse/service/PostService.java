@@ -97,11 +97,6 @@ public class PostService {
 
         idSameCheck(userId, currentId);
 
-//        String name = requestDto.getContent().getClass().getName();
-//        String url = requestDto.getImageUrl().getClass().getName();
-
-
-
         //Url로 변환
         PostRequestDto postRequestDto = getPostRequestDto(requestDto);
         post.update(user, postRequestDto);  //변경감지로 쓰기지연 저장소에 있던 친구들이 DB로 들어간다.(commit 시점에서)
@@ -175,10 +170,15 @@ public class PostService {
         MultipartFile imageUrl = requestDto.getImageUrl();
         String content = requestDto.getContent();
 
-        //s3 관련
-        String imgUrl = getImgUrl(imageUrl);
+        String str_ImgUrl;
 
-        return new PostRequestDto(size, type, style, area, imgUrl, content);
+        if(imageUrl == null){
+            str_ImgUrl=null;
+        }else{
+            str_ImgUrl = getImgUrl(imageUrl);
+        }
+        //s3 관련
+        return new PostRequestDto(size, type, style, area, str_ImgUrl, content);
     }
     ////////////////////////////////////////////------------S3관련---------------//////////////////////////////////////////////////////
     private String getImgUrl(MultipartFile imageUrl) {
