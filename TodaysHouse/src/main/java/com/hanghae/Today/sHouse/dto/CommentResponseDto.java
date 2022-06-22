@@ -16,4 +16,11 @@ public class CommentResponseDto {
     private String userNickname;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
+
+    @Data
+    @AllArgsConstructor
+    public static class CommentIdAndTimeDto{
+        private Long commentId;
+        private LocalDateTime createdAt;
+    }
 }
