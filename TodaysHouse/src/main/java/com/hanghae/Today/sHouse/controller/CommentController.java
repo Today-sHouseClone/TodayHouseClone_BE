@@ -54,13 +54,6 @@ public class CommentController {
         }
     }
 
-//    @GetMapping
-//    public Page<CommentResponseDto> get(
-//            @PageableDefault (size = 5, sort = "createdDate", direction = Sort.Direction.DESC) Pageable pageable) {
-//        Page<Comment> bookReviewPage = commentService.getComments(pageable);
-//        return bookReviewPage.map(CommentResponseDto);
-//    }
-
     //댓글 수정
     @PutMapping("/api/comment/{commentId}")
     public ResponseEntity<String>updateComment(@PathVariable Long commentId,
