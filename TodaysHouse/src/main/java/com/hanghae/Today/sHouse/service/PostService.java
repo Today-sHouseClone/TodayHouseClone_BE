@@ -54,7 +54,7 @@ public class PostService {
         List<Post> posts = postRepository.findAllByOrderByCreatedAtDesc();
         List<PostResponseDto.MainResponse> postResponse = new ArrayList<>();
         for (Post post : posts) {
-            //Comment viewComment = commentRepository.findTopByPostIdOrderByCreatedAtDesc(post.getId());
+            Comment viewComment = commentRepository.findTopByPostIdOrderByCreatedAtDesc(post.getId());
             PostResponseDto.MainResponse mainDto = PostResponseDto.MainResponse.builder()
                     .id(post.getId())
                     .userNickname(post.getUser().getUserNickname())
@@ -68,7 +68,7 @@ public class PostService {
                     .bookmarkCheck(post.getBookmarkCheck())
                     .createdAt(post.getCreatedAt())
                     .modifiedAt(post.getModifiedAt())
-                    //.commentOne(viewComment)
+                    .commentOne(viewComment)
                     .build();
             postResponse.add(mainDto);
         }

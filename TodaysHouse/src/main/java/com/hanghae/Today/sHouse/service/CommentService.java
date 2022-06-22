@@ -10,6 +10,8 @@ import com.hanghae.Today.sHouse.repository.PostRepository;
 import com.hanghae.Today.sHouse.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -53,6 +55,12 @@ public class CommentService {
         commentRequestList(postId, commentResponseDtoList, comments);
         return commentResponseDtoList;
     }
+
+//    public Page<CommentResponseDto> getComments(
+//            @PageableDefault(page = 0, size = 10, sort = "createdDate", direction = Sort.Direction.DESC) Pageable pageable) {
+//        Page<BookReview> bookReviewPage = bookReviewService.getBookReviews(pageable);
+//        return bookReviewPage.map(DetailPageDto::from);
+//    }
 
     //댓글 불러와서 리스트에 저장
     private void commentRequestList(Long postId, List<CommentResponseDto> commentResponseDtoList, List<Comment> comments) {
