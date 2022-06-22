@@ -8,7 +8,9 @@ import com.hanghae.Today.sHouse.security.UserDetailsImpl;
 import com.hanghae.Today.sHouse.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -41,7 +43,8 @@ public class CommentController {
 
     //댓글 조회
     @GetMapping("/api/comment/{postId}")
-    public ResponseEntity<List<CommentResponseDto>> findComment(@PathVariable Long postId){
+    public ResponseEntity<List<CommentResponseDto>> findComment(
+            @PathVariable Long postId/*, @PageableDefault(size = 5, sort = "createdDate", direction = Sort.Direction.DESC) Pageable pageable*/){
         try{
             return new ResponseEntity<>(commentService.findComment(postId), HttpStatus.OK);
         }catch(IllegalArgumentException e){
