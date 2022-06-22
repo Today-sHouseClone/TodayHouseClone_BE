@@ -43,6 +43,23 @@ public class PostResponseDto {
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
         private Comment commentOne;
+
+        public static MainResponse from(Post post) {
+            return MainResponse.builder()
+                    .id(post.getId())
+                    .userNickname(post.getUser().getUserNickname())
+                    .imageUrl(post.getImageUrl())
+                    .content(post.getContent())
+                    .viewCnt(post.getViewCnt())
+                    .heartCnt(post.getHeartCnt())
+                    .bookmarkCnt(post.getBookmarkCnt())
+                    .heartCheck(post.getHeartCheck())
+                    .bookmarkCheck(post.getBookmarkCheck())
+                    .createdAt(post.getCreatedAt())
+                    .modifiedAt(post.getModifiedAt())
+                    //.commentOne(viewComment)
+                    .build();
+        }
     }
 
     @Builder

@@ -3,6 +3,7 @@ package com.hanghae.Today.sHouse.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -41,6 +42,7 @@ public class Comment extends Timestamped{
     private User user;
 
 
+    @Builder
     public Comment(User user, Post post, String getComment) {
         this.user = user;
         this.post = post;

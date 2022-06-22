@@ -1,8 +1,10 @@
 package com.hanghae.Today.sHouse.controller;
 
+import com.hanghae.Today.sHouse.dto.CommentResponseDto;
 import com.hanghae.Today.sHouse.dto.MultipartFileDto;
 import com.hanghae.Today.sHouse.dto.PostRankingDto;
 import com.hanghae.Today.sHouse.dto.PostResponseDto;
+import com.hanghae.Today.sHouse.model.Comment;
 import com.hanghae.Today.sHouse.model.Post;
 import com.hanghae.Today.sHouse.repository.PostRepository;
 import com.hanghae.Today.sHouse.security.UserDetailsImpl;
@@ -14,6 +16,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -36,6 +39,13 @@ public class PostController {
     public ResponseEntity<PostResponseDto> getAllPost() {
         return postService.getAllPost();
     }
+
+//    @GetMapping("/api/posts")
+//    public Page<PostResponseDto.MainResponse> getAllPost(
+//            @PageableDefault(size = 5, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
+//        Page<Post> postPage = postService.getPosts(pageable);
+//        return postPage.map(PostResponseDto.MainResponse::from);
+//    }
 
     //게시글 등록
     @PostMapping("/api/post")
