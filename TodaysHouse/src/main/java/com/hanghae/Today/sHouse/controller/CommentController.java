@@ -55,10 +55,10 @@ public class CommentController {
     }
 
 //    @GetMapping
-//    public Page<CommentResponseDto> get(
+//    public Page<CommentResponseDto> getAllComment(
 //            @PageableDefault (size = 5, sort = "createdDate", direction = Sort.Direction.DESC) Pageable pageable) {
-//        Page<Comment> bookReviewPage = commentService.getComments(pageable);
-//        return bookReviewPage.map(CommentResponseDto);
+//        Page<Comment> commentPage = commentService.getComments(pageable);
+//        return commentPage.map(CommentResponseDto);
 //    }
 
     //댓글 수정
