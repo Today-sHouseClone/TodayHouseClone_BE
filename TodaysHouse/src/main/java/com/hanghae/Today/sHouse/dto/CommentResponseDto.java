@@ -19,15 +19,22 @@ public class CommentResponseDto {
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 
-    public static CommentResponseDto from(Comment comment) {
-        return CommentResponseDto.builder()
-                .postId(comment.getPost().getId())
-                .id(comment.getId())
-                .comment(comment.getComment())
-                .commentHeartCheck(comment.getCommentHeartCheck())
-                .userNickname(comment.getUser().getUserNickname())
-                .createdAt(comment.getCreatedAt())
-                .modifiedAt(comment.getModifiedAt())
-                .build();
+//    public static CommentResponseDto from(Comment comment) {
+//        return CommentResponseDto.builder()
+//                .postId(comment.getPost().getId())
+//                .id(comment.getId())
+//                .comment(comment.getComment())
+//                .commentHeartCheck(comment.getCommentHeartCheck())
+//                .userNickname(comment.getUser().getUserNickname())
+//                .createdAt(comment.getCreatedAt())
+//                .modifiedAt(comment.getModifiedAt())
+//                .build();
+//    }
+
+    @Data
+    @AllArgsConstructor
+    public static class CommentIdAndTimeDto{
+        private Long commentId;
+        private LocalDateTime createdAt;
     }
 }

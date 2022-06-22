@@ -78,27 +78,7 @@ public class PostService {
 //    }
 
     public Page<Post> getPosts(Pageable pageable) {
-//        List<Post> posts = postRepository.findAllByOrderByCreatedAtDesc();
-//        List<PostResponseDto.MainResponse> postResponse = new ArrayList<>();
-//        for (Post post : posts) {
-//            Comment viewComment = commentRepository.findTopByPostIdOrderByCreatedAtDesc(post.getId());
-//            PostResponseDto.MainResponse mainDto = PostResponseDto.MainResponse.builder()
-//                    .id(post.getId())
-//                    .userNickname(post.getUser().getUserNickname())
-//                    .imageUrl(post.getImageUrl())
-//                    .viewCnt(post.getViewCnt())
-//                    .content(post.getContent())
-//                    .heartCnt(post.getHeartCnt())
-//                    .bookmarkCnt(post.getBookmarkCnt())
-//                    .commentCnt(post.getCommentCnt())
-//                    .heartCheck(post.getHeartCheck())
-//                    .bookmarkCheck(post.getBookmarkCheck())
-//                    .createdAt(post.getCreatedAt())
-//                    .modifiedAt(post.getModifiedAt())
-//                    .commentOne(viewComment)
-//                    .build();
-//            postResponse.add(mainDto);
-//        }
+
         return postRepository.findAll(pageable);
     }
 

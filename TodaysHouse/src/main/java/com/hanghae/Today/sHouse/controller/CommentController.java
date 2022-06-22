@@ -35,12 +35,11 @@ public class CommentController {
 
     //댓글 등록
     @PostMapping("/api/comment/{postId}")
-    public ResponseEntity<LocalDateTime>addComment(@PathVariable Long postId,
+    public ResponseEntity<CommentResponseDto.CommentIdAndTimeDto>addComment(@PathVariable Long postId,
                                             @AuthenticationPrincipal UserDetailsImpl userDetails,
                                             @RequestBody CommentRequestDto requestDto){
         try{
-            LocalDateTime localDateTime = commentService.addComment(postId, userDetails, requestDto);
-            return new ResponseEntity<>(localDateTime , HttpStatus.CREATED);
+            return new ResponseEntity<>(commentService.addComment(postId, userDetails, requestDto), HttpStatus.CREATED);
         }catch (IllegalArgumentException e){
             return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
