@@ -28,7 +28,7 @@ public class CommentService {
 
     //댓글 등록
     @Transactional
-    public void addComment(Long postId, UserDetailsImpl userDetails, CommentRequestDto requestDto) {
+    public LocalDateTime addComment(Long postId, UserDetailsImpl userDetails, CommentRequestDto requestDto) {
         User user = userDetails.getUser();
         String getComment = requestDto.getComment();
 
@@ -42,6 +42,7 @@ public class CommentService {
 
         Comment comment = new Comment(user, post, getComment);
         commentRepository.save(comment);
+        return comment.getCreatedAt();
     }
 
     //댓글 조회
