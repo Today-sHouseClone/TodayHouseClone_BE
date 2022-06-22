@@ -52,7 +52,7 @@ public class CommentService {
     //댓글 조회
     public List<CommentResponseDto> findComment(Long postId) {
         Post findPost = findPost(postId);
-        List<Comment> commentList = commentRepository.findAllByOrderByCreatedAtDesc();
+        List<Comment> commentList = commentRepository.findAllByPostIdByCreatedAtDesc(postId);
 
         List<CommentResponseDto>commentResponseDtoList = new ArrayList<>();
         List<Comment> comments = findPost.getComments();
