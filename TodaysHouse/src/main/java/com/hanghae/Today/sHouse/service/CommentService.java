@@ -30,22 +30,25 @@ public class CommentService {
 
     //댓글 등록
     @Transactional
-    public CommentResponseDto.CommentIdAndTimeDto addComment(Long postId, UserDetailsImpl userDetails, CommentRequestDto requestDto) {
+    public CommentResponseDto addComment(Long postId, UserDetailsImpl userDetails, CommentRequestDto requestDto) {
         User user = userDetails.getUser();
+        String userNickname = user.getUserNickname();
         String getComment = requestDto.getComment();
+        Post post = findPost(postId);
 
         if(getComment.equals(""))
             throw new IllegalArgumentException("댓글을 입력해주세요!");
 
-        Post post = findPost(postId);
-
         int commentCnt = post.getCommentCnt();
         post.setCommentCnt(commentCnt+1);
-
         Comment comment = new Comment(user, post, getComment);
         commentRepository.save(comment);
-        CommentResponseDto.CommentIdAndTimeDto commentIdAndTimeDto = new CommentResponseDto.CommentIdAndTimeDto(comment.getId(), comment.getCreatedAt());
-        return commentIdAndTimeDto;
+
+        Long commentId = comment.getId();
+        Boolean commentHeartCheck = comment.getCommentHeartCheck();
+        CommentResponseDto commentResponseDto = new CommentResponseDto(postId, commentId, getComment, commentHeartCheck,
+                userNickname, comment.getCreatedAt(), comment.getModifiedAt());
+        return commentResponseDto;
     }
 
     //댓글 조회
