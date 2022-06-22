@@ -2,12 +2,11 @@ package com.hanghae.Today.sHouse.dto;
 
 import com.hanghae.Today.sHouse.model.Comment;
 import com.hanghae.Today.sHouse.model.Post;
-import com.hanghae.Today.sHouse.model.User;
+import com.hanghae.Today.sHouse.repository.CommentRepository;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -45,7 +44,6 @@ public class PostResponseDto {
         private Comment commentOne;
 
         public static MainResponse from(Post post) {
-
             return MainResponse.builder()
                     .id(post.getId())
                     .userNickname(post.getUser().getUserNickname())

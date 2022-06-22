@@ -17,9 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @RequiredArgsConstructor
 @Service
@@ -47,20 +45,20 @@ public class CommentService {
     }
 
     //댓글 조회
-//    public List<CommentResponseDto> findComment(Long postId) {
-//        Post findPost = findPost(postId);
-//
-//        List<CommentResponseDto>commentResponseDtoList = new ArrayList<>();
-//        List<Comment> comments = findPost.getComments();
-//
-//        commentRequestList(postId, commentResponseDtoList, comments);
-//        return commentResponseDtoList;
-//    }
+    public List<CommentResponseDto> findComment(Long postId) {
+        Post findPost = findPost(postId);
+
+        List<CommentResponseDto>commentResponseDtoList = new ArrayList<>();
+        List<Comment> comments = findPost.getComments();
+
+        commentRequestList(postId, commentResponseDtoList, comments);
+        return commentResponseDtoList;
+    }
 
     //댓글 페이징
-    public Page<Comment> findComment(Long postId, Pageable pageable) {
-        return commentRepository.findAllByPostId(postId, pageable);
-    }
+//    public Page<Comment> findComment(Long postId, Pageable pageable) {
+//        return commentRepository.findAllByPostId(postId, pageable);
+//    }
 
     //댓글 불러와서 리스트에 저장
     private void commentRequestList(Long postId, List<CommentResponseDto> commentResponseDtoList, List<Comment> comments) {
@@ -73,7 +71,6 @@ public class CommentService {
             LocalDateTime modifiedAt = comment.getModifiedAt();
 
             CommentResponseDto commentResponseDto = new CommentResponseDto(postId, id, getComment, commentHeartCheck, userNickname, createdAt, modifiedAt);
-
             commentResponseDtoList.add(commentResponseDto);
         }
     }
