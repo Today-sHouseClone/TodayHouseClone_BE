@@ -57,7 +57,7 @@ public class CommentController {
     @GetMapping("/api/comment/{postId}")
     public Page<CommentResponseDto> getAllComment(
             @PageableDefault (size = 5, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
-        Page<Comment> commentPage = commentService.getComments(pageable);
+        Page<Comment> commentPage = commentService.findComment(pageable);
         return commentPage.map(CommentResponseDto::from);
     }
 

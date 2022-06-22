@@ -45,6 +45,7 @@ public class PostResponseDto {
         private Comment commentOne;
 
         public static MainResponse from(Post post) {
+
             return MainResponse.builder()
                     .id(post.getId())
                     .userNickname(post.getUser().getUserNickname())
@@ -57,7 +58,7 @@ public class PostResponseDto {
                     .bookmarkCheck(post.getBookmarkCheck())
                     .createdAt(post.getCreatedAt())
                     .modifiedAt(post.getModifiedAt())
-                    //.commentOne(viewComment)
+                    //.commentOne(post.)
                     .build();
         }
     }

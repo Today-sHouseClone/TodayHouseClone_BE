@@ -58,7 +58,7 @@ public class CommentService {
 //    }
 
     //댓글 페이징
-    public Page<Comment> getComments(Pageable pageable) {
+    public Page<Comment> findComment(Pageable pageable) {
         return commentRepository.findAll(pageable);
     }
 
