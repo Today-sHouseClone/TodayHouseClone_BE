@@ -1,8 +1,5 @@
 package com.hanghae.Today.sHouse.controller;
-import com.hanghae.Today.sHouse.dto.LoginRequestDto;
-import com.hanghae.Today.sHouse.dto.MypagePictureDto;
-import com.hanghae.Today.sHouse.dto.PostRankingDto;
-import com.hanghae.Today.sHouse.dto.SignupRequestDto;
+import com.hanghae.Today.sHouse.dto.*;
 import com.hanghae.Today.sHouse.model.Post;
 import com.hanghae.Today.sHouse.model.User;
 import com.hanghae.Today.sHouse.repository.PostRepository;
@@ -88,6 +85,16 @@ public class UserController {
     }
 
     //마이페이지 전체보기
-    //@GetMapping("/api/post/mypage/pictures")
+    @GetMapping("/api/post/mypage/pictures")
+    public ResponseEntity<List<MyPageResponseDto>> getMyPagePosts(@AuthenticationPrincipal UserDetailsImpl userDetails){
+        Long userId = userDetails.getUser().getId();
+        String userNickname = userDetails.getUser().getUserNickname();
+        List<Post> byMypagePosting = postRepository.findByMypagePosting(userId);
+        List<MyPageResponseDto>mypagePictureDtoList = byMypagePosting.stream()
+                .map((p)-> new MyPageResponseDto(p.getId(), userNickname, p.getImageUrl(), p.getContent(), p.getViewCnt()
+                , p.getHeartCnt(), p.getBookmarkCnt(), p.getCommentCnt(), p.getHeartCheck(), p.getBookmarkCheck(), p.getCreatedAt(), p.getModifiedAt()))
+                .collect(Collectors.toList());
 
+        return new ResponseEntity<>(mypagePictureDtoList, HttpStatus.OK);
+    }
 }
