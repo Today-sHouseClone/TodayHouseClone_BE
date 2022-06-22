@@ -101,6 +101,14 @@ public class UserController {
     }
 
     //마이페이지 미니정보3종세트
-//    @GetMapping("/api/post/mypage/information")
-//    public
+    @GetMapping("/api/post/mypage/information")
+    public ResponseEntity<MyPageInformationDto>getMyPageInformation(@AuthenticationPrincipal UserDetailsImpl userDetails){
+        Long userId = userDetails.getUser().getId();
+        String userNickname = userDetails.getUser().getUserNickname();
+        int byUserHeartCnt = postRepository.findByUserHeartCnt(userId);
+        int byUserBookmarkCnt = postRepository.findByUserBookmarkCnt(userId);
+
+        MyPageInformationDto myPageInformationDto = new MyPageInformationDto(userNickname, byUserHeartCnt, byUserBookmarkCnt);
+        return new ResponseEntity<>(myPageInformationDto, HttpStatus.OK);
+    }
 }

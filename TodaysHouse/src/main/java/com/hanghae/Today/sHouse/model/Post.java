@@ -1,6 +1,7 @@
 package com.hanghae.Today.sHouse.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.hanghae.Today.sHouse.dto.PostRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -62,14 +63,22 @@ public class Post extends Timestamped {
     private Boolean bookmarkCheck;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnore
+    //@JsonIgnore
     @JoinColumn(name="USER_ID")
     private User user;
 
-    //@JsonManagedReference // 직렬화 허용 어노테이션
-    @JsonIgnore
+    @JsonManagedReference // 직렬화 허용 어노테이션
+    //@JsonIgnore
     @OneToMany(mappedBy = "post", orphanRemoval = true) // orpahRemanal = true 부모 삭제시 자식도 삭제
     private List<Comment> comments;
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "post", orphanRemoval = true)
+    private List<Heart> heart;
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "post", orphanRemoval = true)
+    private List<Bookmark> bookmark;
 
     public Post(User user, PostRequestDto requestDto) {
         this.user = user;
