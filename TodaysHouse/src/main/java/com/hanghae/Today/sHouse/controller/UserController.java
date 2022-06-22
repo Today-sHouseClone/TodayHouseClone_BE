@@ -69,6 +69,8 @@ public class UserController {
         return new ResponseEntity<>("축하해요! 닉네임을 사용하실 수 있습니다!", HttpStatus.OK);
     }
 
+    /////////////////////////////////////////////////////////////////////////////////////////////////////
+
     //마이페이지 내 사진
     @GetMapping("/api/post/mypage/picture")
     public ResponseEntity<List<MypagePictureDto>> getPostRanking(@AuthenticationPrincipal UserDetailsImpl userDetails){
@@ -97,4 +99,7 @@ public class UserController {
 
         return new ResponseEntity<>(mypagePictureDtoList, HttpStatus.OK);
     }
+
+    //마이페이지 미니정보3종세트
+
 }
