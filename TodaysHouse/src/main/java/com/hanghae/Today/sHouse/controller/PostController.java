@@ -1,10 +1,9 @@
 package com.hanghae.Today.sHouse.controller;
 
-import com.hanghae.Today.sHouse.dto.CommentResponseDto;
 import com.hanghae.Today.sHouse.dto.MultipartFileDto;
 import com.hanghae.Today.sHouse.dto.PostRankingDto;
+import com.hanghae.Today.sHouse.dto.PostRequestDto;
 import com.hanghae.Today.sHouse.dto.PostResponseDto;
-import com.hanghae.Today.sHouse.model.Comment;
 import com.hanghae.Today.sHouse.model.Post;
 import com.hanghae.Today.sHouse.repository.PostRepository;
 import com.hanghae.Today.sHouse.security.UserDetailsImpl;
@@ -34,21 +33,20 @@ public class PostController {
     private final PostRepository postRepository;
     //private final Logger logger = LoggerFactory.getLogger("LoggerController 의 로그");
 
-
     //페이징 메인페이지
-//    @GetMapping("/api/posts")
-//    public Page<PostResponseDto.MainResponse> getAllPost(
-//            @PageableDefault(size = 8, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
-//        Page<Post> postPage = postService.getPosts(pageable);
-//        return postPage.map(PostResponseDto.MainResponse::from);
-//    }
-
     @GetMapping("/api/posts")
     public ResponseEntity<PostResponseDto.MainResponse> getAllPost(
             @PageableDefault(size = 8) Pageable pageable) {
         ResponseEntity<PostResponseDto.MainResponse> postPage = postService.getPosts(pageable);
         return postPage;
     }
+
+//    @GetMapping("/api/posts")
+//    public Page<PostResponseDto.MainResponse> getAllPost(
+//            @PageableDefault(size = 8, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
+//        Page<Post> postPage = postService.getPosts(pageable);
+//        return postPage.map(PostResponseDto.MainResponse::from);
+//    }
 
     //게시글 등록
     @PostMapping("/api/post")

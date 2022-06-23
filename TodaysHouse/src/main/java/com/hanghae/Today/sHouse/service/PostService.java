@@ -77,7 +77,6 @@ public class PostService {
         return new ResponseEntity(postResponse, HttpStatus.OK);
     }
 
-//    @Transactional
 //    public Page<Post> getPosts(Pageable pageable) {
 //        return postRepository.findAll(pageable);
 //    }
