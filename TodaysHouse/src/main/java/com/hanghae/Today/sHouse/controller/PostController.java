@@ -36,13 +36,18 @@ public class PostController {
 
 
     //페이징 메인페이지
+//    @GetMapping("/api/posts")
+//    public Page<PostResponseDto.MainResponse> getAllPost(
+//            @PageableDefault(size = 8, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
+//        Page<Post> postPage = postService.getPosts(pageable);
+//        return postPage.map(PostResponseDto.MainResponse::from);
+//    }
+
     @GetMapping("/api/posts")
-    public Page<PostResponseDto.MainResponse> getAllPost(
-            @PageableDefault(size = 4, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
-
-        Page<Post> postPage = postService.getPosts(pageable);
-
-        return postPage.map(PostResponseDto.MainResponse::from);
+    public ResponseEntity<PostResponseDto.MainResponse> getAllPost(
+            @PageableDefault(size = 8) Pageable pageable) {
+        ResponseEntity<PostResponseDto.MainResponse> postPage = postService.getPosts(pageable);
+        return postPage;
     }
 
     //게시글 등록

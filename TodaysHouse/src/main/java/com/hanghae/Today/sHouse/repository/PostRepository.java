@@ -13,8 +13,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface PostRepository extends JpaRepository<Post, Long> {
-    List<Post> findAllByOrderByCreatedAtDesc();
-    //Page<Post> findAll(Pageable pageable);
+    List<Post> findAllByOrderByCreatedAtDesc(Pageable pageable);
 
     //랭킹 페이지 구현
     //List<Post> findAllByOrderByViewCntDesc();

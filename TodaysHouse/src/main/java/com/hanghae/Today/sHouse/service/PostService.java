@@ -51,36 +51,36 @@ public class PostService {
     private String bucket;
 
     //전체 게시글 조회
+    @Transactional
+    public ResponseEntity<PostResponseDto.MainResponse> getPosts(Pageable pageable) {
+        List<Post> posts = postRepository.findAllByOrderByCreatedAtDesc(pageable);
+        List<PostResponseDto.MainResponse> postResponse = new ArrayList<>();
+        for (Post post : posts) {
+            Comment viewComment = commentRepository.findTop1ByPostIdOrderByCreatedAtDesc(post.getId());
+            PostResponseDto.MainResponse mainDto = PostResponseDto.MainResponse.builder()
+                    .id(post.getId())
+                    .userNickname(post.getUser().getUserNickname())
+                    .imageUrl(post.getImageUrl())
+                    .viewCnt(post.getViewCnt())
+                    .content(post.getContent())
+                    .heartCnt(post.getHeartCnt())
+                    .bookmarkCnt(post.getBookmarkCnt())
+                    .commentCnt(post.getCommentCnt())
+                    .heartCheck(post.getHeartCheck())
+                    .bookmarkCheck(post.getBookmarkCheck())
+                    .createdAt(post.getCreatedAt())
+                    .modifiedAt(post.getModifiedAt())
+                    .commentOne(viewComment)
+                    .build();
+            postResponse.add(mainDto);
+        }
+        return new ResponseEntity(postResponse, HttpStatus.OK);
+    }
+
 //    @Transactional
 //    public Page<Post> getPosts(Pageable pageable) {
-//        List<Post> posts = postRepository.findAllByOrderByCreatedAtDesc();  //다 설정해서 pageable에 담아서 왔는데 왜?
-//        List<PostResponseDto.MainResponse> postResponse = new ArrayList<>();
-//        for (Post post : posts) {
-//            Comment viewComment = commentRepository.findTop1ByPostIdOrderByCreatedAtDesc(post.getId());
-//            PostResponseDto.MainResponse mainDto = PostResponseDto.MainResponse.builder()       //여기에 다 넣어도 차피 controller에서 .map으로 데이터 넣어서 보내주는 거 같은데 왜??
-//                    .id(post.getId())
-//                    .userNickname(post.getUser().getUserNickname())
-//                    .imageUrl(post.getImageUrl())
-//                    .viewCnt(post.getViewCnt())
-//                    .content(post.getContent())
-//                    .heartCnt(post.getHeartCnt())
-//                    .bookmarkCnt(post.getBookmarkCnt())
-//                    .commentCnt(post.getCommentCnt())
-//                    .heartCheck(post.getHeartCheck())
-//                    .bookmarkCheck(post.getBookmarkCheck())
-//                    .createdAt(post.getCreatedAt())
-//                    .modifiedAt(post.getModifiedAt())
-//                    .commentOne(viewComment)
-//                    .build();
-//            postResponse.add(mainDto);  //얘는 왜????
-//        }
-//        return postRepository.findAll(pageable); // 얘로 해줄거면 위에 애들 왜?
+//        return postRepository.findAll(pageable);
 //    }
-
-    @Transactional
-    public Page<Post> getPosts(Pageable pageable) {
-        return postRepository.findAll(pageable);
-    }
 
     //게시글 등록
     @Transactional
