@@ -51,13 +51,13 @@ public class PostService {
     private String bucket;
 
     //전체 게시글 조회
-    @Transactional
-//    public ResponseEntity<PostResponseDto> getAllPost() {
-//        List<Post> posts = postRepository.findAllByOrderByCreatedAtDesc();
+//    @Transactional
+//    public Page<Post> getPosts(Pageable pageable) {
+//        List<Post> posts = postRepository.findAllByOrderByCreatedAtDesc();  //다 설정해서 pageable에 담아서 왔는데 왜?
 //        List<PostResponseDto.MainResponse> postResponse = new ArrayList<>();
 //        for (Post post : posts) {
 //            Comment viewComment = commentRepository.findTop1ByPostIdOrderByCreatedAtDesc(post.getId());
-//            PostResponseDto.MainResponse mainDto = PostResponseDto.MainResponse.builder()
+//            PostResponseDto.MainResponse mainDto = PostResponseDto.MainResponse.builder()       //여기에 다 넣어도 차피 controller에서 .map으로 데이터 넣어서 보내주는 거 같은데 왜??
 //                    .id(post.getId())
 //                    .userNickname(post.getUser().getUserNickname())
 //                    .imageUrl(post.getImageUrl())
@@ -72,11 +72,12 @@ public class PostService {
 //                    .modifiedAt(post.getModifiedAt())
 //                    .commentOne(viewComment)
 //                    .build();
-//            postResponse.add(mainDto);
+//            postResponse.add(mainDto);  //얘는 왜????
 //        }
-//        return new ResponseEntity(postResponse, HttpStatus.OK);
+//        return postRepository.findAll(pageable); // 얘로 해줄거면 위에 애들 왜?
 //    }
 
+    @Transactional
     public Page<Post> getPosts(Pageable pageable) {
         return postRepository.findAll(pageable);
     }

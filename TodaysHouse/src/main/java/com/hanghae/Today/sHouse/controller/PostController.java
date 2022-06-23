@@ -32,19 +32,16 @@ import java.util.stream.Collectors;
 public class PostController {
     private final PostService postService;
     private final PostRepository postRepository;
-    private final Logger logger = LoggerFactory.getLogger("LoggerController 의 로그");
+    //private final Logger logger = LoggerFactory.getLogger("LoggerController 의 로그");
 
-    //메인페이지 조회
-//    @GetMapping("/api/posts")
-//    public ResponseEntity<PostResponseDto> getAllPost() {
-//        return postService.getAllPost();
-//    }
 
     //페이징 메인페이지
     @GetMapping("/api/posts")
     public Page<PostResponseDto.MainResponse> getAllPost(
             @PageableDefault(size = 4, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
+
         Page<Post> postPage = postService.getPosts(pageable);
+
         return postPage.map(PostResponseDto.MainResponse::from);
     }
 
@@ -53,7 +50,6 @@ public class PostController {
     public ResponseEntity<String>addPost(@AuthenticationPrincipal UserDetailsImpl userDetails,
                                          MultipartFileDto requestDto){
         try{
-            System.out.println(userDetails.getUsername());
             postService.createPost(userDetails, requestDto);
             return new ResponseEntity<>("게시글 등록을 성공하였습니다.", HttpStatus.CREATED);
         }catch(IllegalArgumentException e){
