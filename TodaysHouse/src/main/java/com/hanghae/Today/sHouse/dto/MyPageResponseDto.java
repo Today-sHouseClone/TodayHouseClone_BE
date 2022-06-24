@@ -21,8 +21,9 @@ public class MyPageResponseDto {
     private int heartCnt;
     private int bookmarkCnt;
     private int commentCnt;
-    private Boolean heartCheck;
-    private Boolean bookmarkCheck;
+
+    private Boolean LikeStatus;
+    private Boolean BookmarkStatus;
 
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;

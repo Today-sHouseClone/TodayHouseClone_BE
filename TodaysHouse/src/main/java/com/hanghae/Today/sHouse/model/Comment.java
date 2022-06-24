@@ -2,13 +2,14 @@ package com.hanghae.Today.sHouse.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter
@@ -24,11 +25,15 @@ public class Comment extends Timestamped{
     @Column(name = "COMMENT_ID")
     private Long id;
 
-    @Column(nullable = false)
+    @Column
     private String comment;
 
+    @JsonManagedReference
+    @OneToMany(mappedBy = "comment", orphanRemoval = true)
+    private List<CommentCheck> commentCheck;
+
     @Column
-    private Boolean commentHeartCheck;
+    private Boolean commentHeartStatus;
 
     @JsonBackReference  // 순환참조 방지
     @ManyToOne(fetch = FetchType.LAZY)
@@ -47,5 +52,13 @@ public class Comment extends Timestamped{
         this.user = user;
         this.post = post;
         this.comment = getComment;
+    }
+
+    public Comment(Boolean commentHeartStatus, User user, Long id, Post post, String comment) {
+        this.commentHeartStatus = commentHeartStatus;
+        this.user = user;
+        this.id = id;
+        this.post = post;
+        this.comment = comment;
     }
 }

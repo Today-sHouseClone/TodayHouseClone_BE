@@ -104,8 +104,11 @@ public class UserController {
         String userNickname = userDetails.getUser().getUserNickname();
         List<Post> byMypagePosting = postRepository.findByMypagePosting(userId);
         List<MyPageResponseDto>mypagePictureDtoList = byMypagePosting.stream()
-                .map((p)-> new MyPageResponseDto(p.getId(), userNickname, p.getImageUrl(), p.getContent(), p.getViewCnt()
-                , p.getHeartCnt(), p.getBookmarkCnt(), p.getCommentCnt(), p.getHeartCheck(), p.getBookmarkCheck(), p.getCreatedAt(), p.getModifiedAt()))
+                .map((p)-> new MyPageResponseDto(p.getId(), userNickname, p.getImageUrl(), p.getContent(), p.getViewCnt(),
+                                p.getHeartCnt(), p.getBookmarkCnt(), p.getCommentCnt(),
+                                p.getHeartCheck().stream().filter(hc->hc.getUser().getId().equals(userId)).findFirst().isPresent(),
+                                p.getBookmark().stream().filter(hc->hc.getUser().getId().equals(userId)).findFirst().isPresent(),
+                        p.getCreatedAt(), p.getModifiedAt()))
                 .collect(Collectors.toList());
 
         return new ResponseEntity<>(mypagePictureDtoList, HttpStatus.OK);

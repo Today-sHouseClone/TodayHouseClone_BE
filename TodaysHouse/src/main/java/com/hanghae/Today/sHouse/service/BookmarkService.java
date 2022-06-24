@@ -2,6 +2,7 @@ package com.hanghae.Today.sHouse.service;
 
 import com.hanghae.Today.sHouse.dto.BookmarkDto;
 import com.hanghae.Today.sHouse.model.Bookmark;
+import com.hanghae.Today.sHouse.model.HeartCheck;
 import com.hanghae.Today.sHouse.model.Post;
 import com.hanghae.Today.sHouse.model.User;
 import com.hanghae.Today.sHouse.repository.BookmarkRepository;
@@ -20,33 +21,30 @@ public class BookmarkService {
 
     private final BookmarkRepository bookmarkRepository;
 
-    //좋아요 누르기
+    //북마크 누르기
     @Transactional
     public boolean clickToBookmark(Long postId, Long userId) {
         Post post = getPost(postId);
         User user = getUser(userId);
-
         boolean toggleBookmark;
 
-        BookmarkDto bookmarkDto = new BookmarkDto(post, user);
-        Bookmark bookmark = new Bookmark(bookmarkDto);
-        int BookmarkCnt = bookmark.getPost().getBookmarkCnt();
+        int BookmarkCnt = post.getBookmarkCnt();
 
-        //지금 로그인 되어있는 사용자가 해당 포스트에 좋아요를 누른적이 있냐 없냐.
+        //지금 로그인 되어있는 사용자가 해당 포스트에 북마크를 누른적이 있냐 없냐.
         Bookmark findBookmark = bookmarkRepository.findByPostAndUser(post, user).orElse(null);
 
         if(findBookmark == null){
-            bookmark.getPost().setBookmarkCnt(BookmarkCnt+1);
+            post.setBookmarkCnt(BookmarkCnt+1);
 
+            Bookmark bookmark = new Bookmark(user, post, true);
             bookmarkRepository.save(bookmark);
-            post.setBookmarkCheck(true);
             toggleBookmark = true;
         }
         else{
-            bookmark.getPost().setBookmarkCnt(BookmarkCnt-1);
+            post.setBookmarkCnt(BookmarkCnt-1);
 
-            bookmarkRepository.deleteById(findBookmark.getId());
-            post.setBookmarkCheck(false);
+            bookmarkRepository.deleteById(findBookmark.getId());        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@Post도
+            findBookmark.setBookmarkStatus(false);
             toggleBookmark = false;
         }
         return toggleBookmark;

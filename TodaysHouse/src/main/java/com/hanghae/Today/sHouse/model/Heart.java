@@ -34,6 +34,7 @@ public class Heart {
     @JoinColumn(name = "COMMENT_ID")
     private Comment comment;
 
+
     public Heart(PostHeartDto heartDto) {
         this.user = heartDto.getUser();
         this.post = heartDto.getPost();

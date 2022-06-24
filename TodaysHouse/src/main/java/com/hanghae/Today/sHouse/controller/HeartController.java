@@ -2,6 +2,7 @@ package com.hanghae.Today.sHouse.controller;
 
 
 import com.hanghae.Today.sHouse.security.UserDetailsImpl;
+import com.hanghae.Today.sHouse.service.CommentService;
 import com.hanghae.Today.sHouse.service.HeartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,8 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class HeartController {
     private final HeartService heartService;
+    private final CommentService commentService;
 
-    //좋아요 클릭
+    //게시글 좋아요 클릭
     @PostMapping("/api/postHeart/{postId}")
     public ResponseEntity<Boolean> IsPostHeart(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails){
         try{
@@ -28,12 +30,12 @@ public class HeartController {
         }
     }
 
-    //좋아요 클릭
+    //댓글 좋아요 클릭
     @PostMapping("/api/commentHeart/{commentId}")
     public ResponseEntity<Boolean> IsCommentHeart(@PathVariable Long commentId, @AuthenticationPrincipal UserDetailsImpl userDetails){
         try{
             Long userId = userDetails.getUser().getId();
-            return new ResponseEntity<>(heartService.clickToCommentHeart(commentId, userId), HttpStatus.OK);
+            return new ResponseEntity<>(commentService.clickToCommentHeart(commentId, userId), HttpStatus.OK);
         }
         catch(IllegalArgumentException e){
             return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);

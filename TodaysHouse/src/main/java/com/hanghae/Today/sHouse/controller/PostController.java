@@ -1,18 +1,14 @@
 package com.hanghae.Today.sHouse.controller;
 
-import com.hanghae.Today.sHouse.dto.CommentResponseDto;
 import com.hanghae.Today.sHouse.dto.MultipartFileDto;
 import com.hanghae.Today.sHouse.dto.PostRankingDto;
 import com.hanghae.Today.sHouse.dto.PostResponseDto;
-import com.hanghae.Today.sHouse.model.Comment;
 import com.hanghae.Today.sHouse.model.Post;
 import com.hanghae.Today.sHouse.repository.PostRepository;
 import com.hanghae.Today.sHouse.security.UserDetailsImpl;
 import com.hanghae.Today.sHouse.service.PostService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -20,9 +16,8 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-import org.slf4j.Logger;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -43,10 +38,11 @@ public class PostController {
 //        return postPage.map(PostResponseDto.MainResponse::from);
 //    }
 
+    //전체 게시글 조회
     @GetMapping("/api/posts")
-    public ResponseEntity<PostResponseDto.MainResponse> getAllPost(
+    public ResponseEntity<PostResponseDto.MainResponse> getAllPost(@AuthenticationPrincipal UserDetailsImpl userDetails,
             @PageableDefault(size = 8) Pageable pageable) {
-        ResponseEntity<PostResponseDto.MainResponse> postPage = postService.getPosts(pageable);
+        ResponseEntity<PostResponseDto.MainResponse> postPage = postService.getPosts(pageable, userDetails);
         return postPage;
     }
 

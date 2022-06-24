@@ -5,8 +5,6 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.hanghae.Today.sHouse.dto.CommentResponseDto;
 import com.hanghae.Today.sHouse.dto.MultipartFileDto;
 import com.hanghae.Today.sHouse.dto.PostRequestDto;
 import com.hanghae.Today.sHouse.dto.PostResponseDto;
@@ -14,12 +12,12 @@ import com.hanghae.Today.sHouse.model.Comment;
 import com.hanghae.Today.sHouse.model.Post;
 import com.hanghae.Today.sHouse.model.User;
 import com.hanghae.Today.sHouse.repository.CommentRepository;
+import com.hanghae.Today.sHouse.repository.HeartCheckRepository;
 import com.hanghae.Today.sHouse.repository.PostRepository;
 import com.hanghae.Today.sHouse.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +31,6 @@ import java.io.InputStream;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 
@@ -44,6 +41,7 @@ import java.util.UUID;
 public class PostService {
     private final PostRepository postRepository;
     private final CommentRepository commentRepository;
+    private final HeartCheckRepository heartCheckRepository;
 
     private final AmazonS3 amazonS3;
 
@@ -52,12 +50,16 @@ public class PostService {
 
     //전체 게시글 조회
     @Transactional
-    public ResponseEntity<PostResponseDto.MainResponse> getPosts(Pageable pageable) {
+    public ResponseEntity<PostResponseDto.MainResponse> getPosts(Pageable pageable, UserDetailsImpl userDetails) {
         List<Post> posts = postRepository.findAllByOrderByCreatedAtDesc(pageable);
+
+        Long userId = userDetails.getUser().getId();
         List<PostResponseDto.MainResponse> postResponse = new ArrayList<>();
+
         for (Post post : posts) {
             Comment viewComment = commentRepository.findTop1ByPostIdOrderByCreatedAtDesc(post.getId());
             PostResponseDto.MainResponse mainDto = PostResponseDto.MainResponse.builder()
+                    //post.getHeartCheck().stream().filter(유저아이디).findFirst().isPresent()
                     .id(post.getId())
                     .userNickname(post.getUser().getUserNickname())
                     .imageUrl(post.getImageUrl())
@@ -66,11 +68,11 @@ public class PostService {
                     .heartCnt(post.getHeartCnt())
                     .bookmarkCnt(post.getBookmarkCnt())
                     .commentCnt(post.getCommentCnt())
-                    .heartCheck(post.getHeartCheck())
-                    .bookmarkCheck(post.getBookmarkCheck())
                     .createdAt(post.getCreatedAt())
                     .modifiedAt(post.getModifiedAt())
                     .commentOne(viewComment)
+                    .LikeStatus(post.getHeartCheck().stream().filter(hc->hc.getUser().getId().equals(userId)).findFirst().isPresent())//filter findfirst.ispresent 를 anyMatcher?? 로 변경 가능
+                    .BookmarkStatus(post.getBookmark().stream().filter(bm->bm.getUser().getId().equals(userId)).findFirst().isPresent())
                     .build();
             postResponse.add(mainDto);
         }

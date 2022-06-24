@@ -1,11 +1,14 @@
 package com.hanghae.Today.sHouse.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.hanghae.Today.sHouse.dto.BookmarkDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -29,8 +32,12 @@ public class Bookmark {
     @JoinColumn(name = "POST_ID")
     private Post post;
 
-    public Bookmark(BookmarkDto bookmarkDto) {
-        this.user = bookmarkDto.getUser();
-        this.post = bookmarkDto.getPost();
+    @Column
+    private Boolean bookmarkStatus;
+
+    public Bookmark(User user, Post post, Boolean bookmarkStatus) {
+        this.user = user;
+        this.post = post;
+        this.bookmarkStatus = bookmarkStatus;
     }
 }
