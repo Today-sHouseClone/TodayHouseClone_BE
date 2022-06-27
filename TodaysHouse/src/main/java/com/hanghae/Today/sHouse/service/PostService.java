@@ -203,9 +203,9 @@ public class PostService {
         String str_ImgUrl;
         str_ImgUrl = getImgUrl(imageUrl);
         return new PostRequestDto(size, type, style, area, str_ImgUrl, content);
-
     }
     ////////////////////////////////////////////------------S3관련---------------//////////////////////////////////////////////////////
+    //https://jane514.tistory.com/10 리스트로 저장하는 코드
     private String getImgUrl(MultipartFile imageUrl) {
         String fileName = createFileName(imageUrl.getOriginalFilename());
         ObjectMetadata objectMetadata = new ObjectMetadata();
