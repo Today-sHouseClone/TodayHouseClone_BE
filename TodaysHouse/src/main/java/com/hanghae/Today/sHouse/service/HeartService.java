@@ -3,14 +3,8 @@ package com.hanghae.Today.sHouse.service;
 
 import com.hanghae.Today.sHouse.dto.CommentHeartDto;
 import com.hanghae.Today.sHouse.dto.PostHeartDto;
-import com.hanghae.Today.sHouse.model.Comment;
-import com.hanghae.Today.sHouse.model.Heart;
-import com.hanghae.Today.sHouse.model.Post;
-import com.hanghae.Today.sHouse.model.User;
-import com.hanghae.Today.sHouse.repository.CommentRepository;
-import com.hanghae.Today.sHouse.repository.HeartRepository;
-import com.hanghae.Today.sHouse.repository.PostRepository;
-import com.hanghae.Today.sHouse.repository.UserRepository;
+import com.hanghae.Today.sHouse.model.*;
+import com.hanghae.Today.sHouse.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,63 +16,35 @@ public class HeartService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
 
-    private final HeartRepository heartRepository;
     private final CommentRepository commentRepository;
+    private final HeartCheckRepository heartCheckRepository;
 
-    //Post 좋아요 누르기
+
+
     @Transactional
     public boolean clickToPostHeart(Long postId, Long userId) {
         Post post = getPost(postId);
         User user = getUser(userId);
-
         boolean toggleLike;
 
-        PostHeartDto heartDto = new PostHeartDto(post, user);
-        Heart heart = new Heart(heartDto);
-        int likeCnt = heart.getPost().getHeartCnt();
+        int likeCnt = post.getHeartCnt();
 
         //지금 로그인 되어있는 사용자가 해당 포스트에 좋아요를 누른적이 있냐 없냐.
-        Heart findHeart = heartRepository.findByPostAndUser(post, user).orElse(null);
+        //게시물과 유저로 좋아요를 찾는다.
+        HeartCheck heartCheck = heartCheckRepository.findByPostAndUser(post, user).orElse(null);
 
-        if(findHeart == null){
-            heart.getPost().setHeartCnt(likeCnt+1);
+        if(heartCheck == null){
+            post.setHeartCnt(likeCnt+1);
 
-            heartRepository.save(heart);
-            post.setHeartCheck(true);
+            HeartCheck hCheck = new HeartCheck(user, post, true);
+            heartCheckRepository.save(hCheck);
             toggleLike = true;
         }
         else{
-            heart.getPost().setHeartCnt(likeCnt-1);
+            post.setHeartCnt(likeCnt-1);
 
-            heartRepository.deleteById(findHeart.getId());
-            post.setHeartCheck(false);
-            toggleLike = false;
-        }
-        return toggleLike;
-    }
-
-    //Comment 좋아요 누르기
-    @Transactional
-    public boolean clickToCommentHeart(Long commentId, Long userId) {
-        Comment comment = getComment(commentId);
-        User user = getUser(userId);
-
-        boolean toggleLike;
-
-        CommentHeartDto commentHeartDto = new CommentHeartDto(comment, user);
-        Heart heart = new Heart(commentHeartDto);
-
-        //지금 로그인 되어있는 사용자가 해당 포스트에 좋아요를 누른적이 있냐 없냐.
-        Heart findHeart = heartRepository.findByCommentAndUser(comment, user).orElse(null);
-
-        if(findHeart == null){
-            comment.setCommentHeartCheck(true);
-            heartRepository.save(heart);
-            toggleLike = true;
-        }
-        else{
-            comment.setCommentHeartCheck(false);
-            heartRepository.deleteById(findHeart.getId());
+            heartCheckRepository.deleteById(heartCheck.getId());
+            heartCheck.setPostLikeStatus(false);
             toggleLike = false;
         }
         return toggleLike;
@@ -99,10 +65,4 @@ public class HeartService {
         return post;
     }
 
-    private Comment getComment(Long commentId) {
-        Comment comment = commentRepository.findById(commentId).orElseThrow(
-                ()->new IllegalArgumentException("댓글이 존재하지 않습니다.")
-        );
-        return comment;
-    }
 }

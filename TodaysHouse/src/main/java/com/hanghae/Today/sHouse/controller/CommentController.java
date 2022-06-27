@@ -2,23 +2,16 @@ package com.hanghae.Today.sHouse.controller;
 
 import com.hanghae.Today.sHouse.dto.CommentRequestDto;
 import com.hanghae.Today.sHouse.dto.CommentResponseDto;
-import com.hanghae.Today.sHouse.model.Comment;
 import com.hanghae.Today.sHouse.repository.CommentRepository;
 import com.hanghae.Today.sHouse.repository.PostRepository;
 import com.hanghae.Today.sHouse.security.UserDetailsImpl;
 import com.hanghae.Today.sHouse.service.CommentService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -45,9 +38,9 @@ public class CommentController {
 
     //댓글 조회
     @GetMapping("/api/comment/{postId}")
-    public ResponseEntity<List<CommentResponseDto>> findComment(@PathVariable Long postId){
+    public ResponseEntity<List<CommentResponseDto>> findComment(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails){
         try{
-            return new ResponseEntity<>(commentService.findComment(postId), HttpStatus.OK);
+            return new ResponseEntity<>(commentService.findComment(postId, userDetails), HttpStatus.OK);
         }catch(IllegalArgumentException e){
             return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
         }

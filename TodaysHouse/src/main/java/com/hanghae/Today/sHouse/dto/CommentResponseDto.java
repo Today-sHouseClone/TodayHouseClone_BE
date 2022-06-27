@@ -1,10 +1,8 @@
 package com.hanghae.Today.sHouse.dto;
 
-import com.hanghae.Today.sHouse.model.Comment;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -14,8 +12,8 @@ public class CommentResponseDto {
     private Long postId;
     private Long id;
     private String comment;
-    private Boolean commentHeartCheck;
     private String userNickname;
+    private Boolean commentHeartStatus;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 

@@ -2,9 +2,7 @@ package com.hanghae.Today.sHouse.dto;
 
 import com.hanghae.Today.sHouse.model.Comment;
 import com.hanghae.Today.sHouse.model.Post;
-import com.hanghae.Today.sHouse.repository.CommentRepository;
 import lombok.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 
@@ -36,12 +34,12 @@ public class PostResponseDto {
         private int heartCnt;
         private int bookmarkCnt;
         private int commentCnt;
-        private Boolean heartCheck;
-        private Boolean bookmarkCheck;
 
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
         private Comment commentOne;
+        private Boolean LikeStatus;
+        private Boolean BookmarkStatus;
 
         public static MainResponse from(Post post) {
             return MainResponse.builder()
@@ -53,8 +51,6 @@ public class PostResponseDto {
                     .heartCnt(post.getHeartCnt())
                     .bookmarkCnt(post.getBookmarkCnt())
                     .commentCnt(post.getCommentCnt())
-                    .heartCheck(post.getHeartCheck())
-                    .bookmarkCheck(post.getBookmarkCheck())
                     .createdAt(post.getCreatedAt())
                     .modifiedAt(post.getModifiedAt())
                     //.commentOne(viewComment)
@@ -81,6 +77,7 @@ public class PostResponseDto {
         private String userNickname;
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
+
     }
 
 }

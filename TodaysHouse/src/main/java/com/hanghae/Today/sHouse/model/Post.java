@@ -1,16 +1,14 @@
 package com.hanghae.Today.sHouse.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.hanghae.Today.sHouse.dto.PostRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Entity
 @Getter
@@ -57,11 +55,6 @@ public class Post extends Timestamped {
     @Column
     private int viewCnt;
 
-    @Column
-    private Boolean heartCheck;
-
-    @Column
-    private Boolean bookmarkCheck;
 
     @ManyToOne(fetch = FetchType.LAZY)
     //@JsonIgnore
@@ -80,6 +73,12 @@ public class Post extends Timestamped {
     @JsonManagedReference
     @OneToMany(mappedBy = "post", orphanRemoval = true)
     private List<Bookmark> bookmark;
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "post", orphanRemoval = true)
+    private List<HeartCheck> heartCheck = new ArrayList<>();
+
+
 
     public Post(User user, PostRequestDto requestDto) {
         this.user = user;
